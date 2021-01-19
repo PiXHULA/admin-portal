@@ -48,19 +48,19 @@ public class DefaultLoader implements CommandLineRunner {
 
         userRepository.save(User.builder()
                 .username("atef")
-                .password(passwordEncoder.encode("guru"))
+                .password(passwordEncoder.encode("password"))
                 .role(superAdminRole)
                 .build());
 
         userRepository.save(User.builder()
                 .username("superAdmin")
-                .password(passwordEncoder.encode("wuru"))
+                .password(passwordEncoder.encode("password"))
                 .role(superAdminRole)
                 .build());
 
         userRepository.save(User.builder()
                 .username("admin")
-                .password(passwordEncoder.encode("zuru"))
+                .password(passwordEncoder.encode("password"))
                 .role(adminRole)
                 .build());
 
