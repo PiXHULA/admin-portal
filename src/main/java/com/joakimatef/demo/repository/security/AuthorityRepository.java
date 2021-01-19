@@ -1,4 +1,7 @@
 package com.joakimatef.demo.repository.security;
 
-public interface AuthorityRepository {
+import com.joakimatef.demo.domain.security.Authority;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AuthorityRepository extends JpaRepository<Authority,Long> {
 }
