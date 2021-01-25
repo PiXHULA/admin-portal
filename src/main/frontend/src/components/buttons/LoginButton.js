@@ -1,11 +1,12 @@
 import axios from "axios";
 
 
-export const LoginButton = () => {
+export const LoginButton = ({usern,password, btnText}) => {
     const user = {
-        username: "admin",
-        password: "password"
+        username: usern,
+        password: password
     }
+    console.log(user)
     return (
         <button
             style={buttonStyle}
@@ -26,7 +27,7 @@ export const LoginButton = () => {
                 console.log(error);
             })
         }}>
-            LoginCOMPONENT
+            {btnText}
         </button>
     );
 }

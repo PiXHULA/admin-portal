@@ -20,7 +20,7 @@ public class JpaUserDetailService implements UserDetailsService {
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.info("Getting User Info via JPA");
+        log.info("Getting User Info via JPA"); //TODO : CHECK WHY IT SHOWS TWICE WHEN CALLING ONCE
 
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User name: " + username +" not found"));

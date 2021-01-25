@@ -2,7 +2,9 @@ package com.joakimatef.demo.controller;
 
 import com.joakimatef.demo.models.AuthenticationRequest;
 import com.joakimatef.demo.models.AuthenticationResponse;
-import com.joakimatef.demo.services.MyUserDetailsService;
+import com.joakimatef.demo.security.JpaUserDetailService;
+import com.joakimatef.demo.security.permission.UserCreatePermission;
+import com.joakimatef.demo.security.permission.UserReadPermission;
 import com.joakimatef.demo.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +22,22 @@ public class HelloResource {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
     @Autowired
-    private MyUserDetailsService userDetailsService;
+    private JpaUserDetailService jpaUserDetailService;
     @Autowired
     private JwtUtil jwtTokenUtil;
 
 
+    @UserCreatePermission
     @GetMapping({"/hello"})
     public String hello() {
+        return "Hello Joakim World";
+    }
+
+    @UserReadPermission
+    @GetMapping({"/wow"})
+    public String wow() {
         return "Hello Atef World";
     }
 
@@ -43,7 +53,7 @@ public class HelloResource {
             throw new IllegalStateException("Incorrect username or password", e);
         }
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        final UserDetails userDetails = jpaUserDetailService.loadUserByUsername(authenticationRequest.getUsername());
         final String jwt = jwtTokenUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new AuthenticationResponse(jwt));

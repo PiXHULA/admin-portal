@@ -1,10 +1,10 @@
 import axios from "axios";
 
-export const HelloButton = () => {
+export const HelloButton = ({btnText,endp}) => {
     return (
         <button onClick={() => {
             if (localStorage.key(0) === 'jwt') {
-                axios.get('hello',
+                axios.get(`${endp}`,
                     {
                         headers: {
                             'Content-Type': 'application/json',
@@ -12,6 +12,7 @@ export const HelloButton = () => {
                         },
                     }).then(response => {
                     console.log(response)
+                    console.log(response.data)
                 }).catch(error => {
                     console.log(error);
                 })
@@ -19,7 +20,7 @@ export const HelloButton = () => {
                 console.log("Please log in first!")
             }
         }}>
-            HELLOCOMPONTENT
+            {btnText}
         </button>
     );
 };

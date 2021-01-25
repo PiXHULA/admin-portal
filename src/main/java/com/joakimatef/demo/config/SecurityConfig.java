@@ -1,8 +1,8 @@
 package com.joakimatef.demo.config;
 
 import com.joakimatef.demo.filters.JwtRequestFilter;
+import com.joakimatef.demo.security.JpaUserDetailService;
 import com.joakimatef.demo.security.PasswordEncoderFactory;
-import com.joakimatef.demo.services.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private MyUserDetailsService myUserDetailsService;
+    private JpaUserDetailService myUserDetailsService;
 
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
@@ -36,14 +36,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests(authorize -> {
-            authorize
-                    .antMatchers("/h2-console/**").hasAuthority("user.create")
-                    .antMatchers("/login", "/", "/resources/**").permitAll();
-                })
+        http.authorizeRequests(authorize ->
+                authorize
+//                .antMatchers("/h2-console").hasAuthority("user.create")
+                .antMatchers("/login", "/", "/resources/**").permitAll())
                 .authorizeRequests()
                 .antMatchers(
-                        HttpMethod.GET,
+                        HttpMethod.GET,"/h2-console",
                         "/index*", "/static/**", "/*.js", "/*.json", "/*.ico","/*.png")
                 .permitAll()
                 .mvcMatchers(HttpMethod.POST,"/authenticate").permitAll()

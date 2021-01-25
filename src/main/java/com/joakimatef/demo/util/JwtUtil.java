@@ -16,8 +16,7 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
-
-    Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
@@ -54,8 +53,8 @@ public class JwtUtil {
                 .signWith(key).compact();
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return(username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-    }
+//    public Boolean validateToken(String token, UserDetails userDetails) {
+//        final String username = extractUsername(token);
+//        return(username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+//    }
 }

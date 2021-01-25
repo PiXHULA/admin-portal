@@ -6,10 +6,10 @@ import com.joakimatef.demo.domain.security.User;
 import com.joakimatef.demo.repository.security.AuthorityRepository;
 import com.joakimatef.demo.repository.security.RoleRepository;
 import com.joakimatef.demo.repository.security.UserRepository;
+import com.joakimatef.demo.security.PasswordEncoderFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +26,7 @@ public class DefaultLoader implements CommandLineRunner {
     private final AuthorityRepository authorityRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+
     @Override
     public void run(String... args) {
         loadSecurityData();
@@ -48,19 +49,25 @@ public class DefaultLoader implements CommandLineRunner {
 
         userRepository.save(User.builder()
                 .username("atef")
-                .password(passwordEncoder.encode("password"))
+                .password(passwordEncoder.encode("guru"))
                 .role(superAdminRole)
                 .build());
 
         userRepository.save(User.builder()
                 .username("superAdmin")
-                .password(passwordEncoder.encode("password"))
+                .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode("password2"))
                 .role(superAdminRole)
                 .build());
 
         userRepository.save(User.builder()
                 .username("admin")
-                .password(passwordEncoder.encode("password"))
+                .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode("password"))
+                .role(adminRole)
+                .build());
+
+        userRepository.save(User.builder()
+                .username("appa")
+                .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode("pappa"))
                 .role(adminRole)
                 .build());
 
