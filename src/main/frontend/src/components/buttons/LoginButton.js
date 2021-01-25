@@ -7,7 +7,9 @@ export const LoginButton = () => {
         password: "password"
     }
     return (
-        <button onClick={() => {
+        <button
+            style={buttonStyle}
+            onClick={() => {
             axios.post('authenticate', user,
                 {
                     headers: {
@@ -28,3 +30,9 @@ export const LoginButton = () => {
         </button>
     );
 }
+const buttonStyle = {
+    'backgroundColor': 'white',
+    'minHeight': '200px',
+    'fontSize': '20px',
+    'borderRadius':'5%'
+};

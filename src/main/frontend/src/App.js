@@ -1,7 +1,5 @@
-import logo from './logo.svg';
-import './App.css';
 // import {useState, useCallback} from "react";
-import axios from "axios";
+
 import {LoginButton} from "./components/buttons/LoginButton";
 import {HelloButton} from "./components/buttons/HelloButton";
 import {LogOutButton} from "./components/buttons/LogOutButton";
@@ -23,20 +21,12 @@ import {LogOutButton} from "./components/buttons/LogOutButton";
 
 function App() {
        return (
-            <div className="App">
+            <div className="App" style={divBackground}>
                 <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
                         <p>
-                        Edit <code>src/App.js</code> and save to reload.
+                        Turistmo - Admin Portal
                         </p>
-                        <a
-                        className="App-link"
-                        href="https://reactjs.org"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        >
-                        Learn React
-                        </a>
+
                         <LoginButton/>
                         <HelloButton/>
                         <LogOutButton/>
@@ -46,3 +36,16 @@ function App() {
 }
 
 export default App;
+
+const divBackground = {
+    'backgroundColor': '#282c34',
+    'minHeight': '100vh',
+    'display': 'flex',
+    'flexDirection': 'column',
+    'alignItems': 'center',
+    'justifyContent': 'center',
+    'fontSize': 'calc(10px + 2vmin)',
+    'color': 'white'
+};
+
+
