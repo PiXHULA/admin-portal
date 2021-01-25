@@ -25,7 +25,7 @@ const LoginButton = () => {
     }
     return (
         <button onClick={() => {
-            axios.post('http://localhost:8080/authenticate', user,
+            axios.post('https://admin-portal-examen.herokuapp.com/authenticate', user,
                 {
                     headers: {
                         'Content-Type': 'application/json'
@@ -50,7 +50,7 @@ const HelloButton = () => {
     return (
         <button onClick={() => {
             if (localStorage.key(0) === 'jwt') {
-                axios.get('http://localhost:8080/hello',
+                axios.get('https://admin-portal-examen.herokuapp.com/hello',
                     {
                         headers: {
                             'Content-Type': 'application/json',
