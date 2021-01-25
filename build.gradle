@@ -51,7 +51,6 @@ node {
 }
 
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.4.2'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -71,12 +70,12 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 }
 
-
-
-task stage {
-    doFirst { clean }
-    dependsOn(build)
-}
+//
+//
+//task stage {
+//    doFirst { clean }
+//    dependsOn(build)
+//}
 
 test {
     useJUnitPlatform()
