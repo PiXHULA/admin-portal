@@ -31,10 +31,10 @@ public class DefaultLoader implements CommandLineRunner {
         loadSecurityData();
     }
 
-    @Value("${PASS}")
-    private String admin;
-    @Value("${PASS2}")
-    private String superAdmin;
+//    @Value("${PASS}")
+//    private String admin;
+//    @Value("${PASS2}")
+//    private String superAdmin;
 
     private void loadSecurityData() {
 
@@ -55,13 +55,13 @@ public class DefaultLoader implements CommandLineRunner {
 
         userRepository.save(User.builder()
                 .username("suAdmin")
-                .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode(superAdmin))
+                .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode("wuru"))
                 .role(superAdminRole)
                 .build());
 
         userRepository.save(User.builder()
                 .username("admin")
-                .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode(admin))
+                .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode("guru"))
                 .role(adminRole)
                 .build());
 
