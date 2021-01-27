@@ -10,14 +10,14 @@ on:
     branches: [ main ]
 
 jobs:
-  environment:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Set env.variables
-      run: echo "PASS=guru" >> $GITHUB_ENV
+#  environment:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - name: Set env.variables
+#      run: echo "PASS=guru" >> $GITHUB_ENV
 
   build:
-    needs: [environment]
+#    needs: [environment]
     runs-on: ubuntu-latest
     steps:
 
@@ -30,3 +30,5 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew build
+        env:
+          PASS: ${{ secrets.PASS }}
