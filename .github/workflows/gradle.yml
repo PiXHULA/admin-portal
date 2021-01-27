@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Set env.variables
-      run: echo "PASS=guru" >> $GITHUB_ENV"
+      run: echo "PASS=guru" >> $GITHUB_ENV
 
   build:
     needs: [environment]
