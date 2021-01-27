@@ -66,11 +66,11 @@ public class DefaultLoader implements CommandLineRunner {
                 .build());
 
 
-        userRepository.save(User.builder()
-                .username("nySuAdmin")
-                .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode(superAdmin))
-                .role(superAdminRole)
-                .build());
+//        userRepository.save(User.builder()
+//                .username("nySuAdmin")
+//                .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode(superAdmin))
+//                .role(superAdminRole)
+//                .build());
 
         userRepository.save(User.builder()
                 .username("nyAdmin")
