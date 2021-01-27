@@ -14,7 +14,6 @@ public class PasswordEncoderFactory {
         Map<String, PasswordEncoder> encoders = new HashMap<>();
         encoders.put(encodingId, new BCryptPasswordEncoder());
         encoders.put("bcrypt12", new BCryptPasswordEncoder(12)); //In case we want to further increase the encryption
-
         return new DelegatingPasswordEncoder(encodingId, encoders);
     }
 

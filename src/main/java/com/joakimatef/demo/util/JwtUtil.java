@@ -7,6 +7,8 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,7 +18,8 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
-    final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    final String secretStringkey = "secretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecret";
+    final SecretKey key = Keys.hmacShaKeyFor(secretStringkey.getBytes(StandardCharsets.UTF_8));
 
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
@@ -52,9 +55,4 @@ public class JwtUtil {
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) //10 hours
                 .signWith(key).compact();
     }
-
-//    public Boolean validateToken(String token, UserDetails userDetails) {
-//        final String username = extractUsername(token);
-//        return(username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-//    }
 }

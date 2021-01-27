@@ -6,6 +6,7 @@ import com.joakimatef.demo.security.JpaUserDetailService;
 import com.joakimatef.demo.security.permission.UserCreatePermission;
 import com.joakimatef.demo.security.permission.UserReadPermission;
 import com.joakimatef.demo.util.JwtUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,16 +19,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+
 public class HelloResource {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final JpaUserDetailService jpaUserDetailService;
+    private final JwtUtil jwtTokenUtil;
 
     @Autowired
-    private JpaUserDetailService jpaUserDetailService;
-    @Autowired
-    private JwtUtil jwtTokenUtil;
-
+    public HelloResource(AuthenticationManager authenticationManager, JpaUserDetailService jpaUserDetailService, JwtUtil jwtTokenUtil) {
+        this.authenticationManager = authenticationManager;
+        this.jpaUserDetailService = jpaUserDetailService;
+        this.jwtTokenUtil = jwtTokenUtil;
+    }
 
     @UserCreatePermission
     @GetMapping({"/hello"})

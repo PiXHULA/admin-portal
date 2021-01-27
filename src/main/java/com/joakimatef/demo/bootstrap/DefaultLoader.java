@@ -9,8 +9,8 @@ import com.joakimatef.demo.repository.security.UserRepository;
 import com.joakimatef.demo.security.PasswordEncoderFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -25,14 +25,20 @@ public class DefaultLoader implements CommandLineRunner {
     private final UserRepository userRepository;
     private final AuthorityRepository authorityRepository;
     private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) {
         loadSecurityData();
     }
 
+    @Value("${PASS}")
+    private String admin;
+    @Value("${PASS2}")
+    private String superAdmin;
+
     private void loadSecurityData() {
+
+
         //user auths
         Authority createUser = authorityRepository.save(Authority.builder().permission("user.create").build());
         Authority readUser = authorityRepository.save(Authority.builder().permission("user.read").build());
@@ -48,26 +54,14 @@ public class DefaultLoader implements CommandLineRunner {
         roleRepository.saveAll(Arrays.asList(superAdminRole, adminRole));
 
         userRepository.save(User.builder()
-                .username("atef")
-                .password(passwordEncoder.encode("guru"))
-                .role(superAdminRole)
-                .build());
-
-        userRepository.save(User.builder()
-                .username("superAdmin")
-                .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode("password2"))
+                .username("suAdmin")
+                .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode(superAdmin))
                 .role(superAdminRole)
                 .build());
 
         userRepository.save(User.builder()
                 .username("admin")
-                .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode("password"))
-                .role(adminRole)
-                .build());
-
-        userRepository.save(User.builder()
-                .username("appa")
-                .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode("pappa"))
+                .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode(admin))
                 .role(adminRole)
                 .build());
 

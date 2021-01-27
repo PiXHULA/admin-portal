@@ -27,10 +27,10 @@ function App() {
                         Turistmo - Admin Portal
                         </p>
 
-                        <LoginButton usern={"appa"} password={"pappa"} btnText={"APPA"}/>
-                        <LoginButton usern={"atef"} password={"guru"} btnText={"ATEF"}/>
-                        <HelloButton btnText={"APPA - WOW"} endp={"wow"}/>
-                        <HelloButton btnText={"ATEF - HELLO"} endp={"hello"}/>
+                        <LoginButton usern={"suAdmin"} password={"wuru"} btnText={"SUADMIN"}/>
+                        <LoginButton usern={"admin"} password={"guru"} btnText={"ADMIN"}/>
+                        <HelloButton btnText={"READ - WOW"} endp={"wow"}/>
+                        <HelloButton btnText={"CREATE - HELLO"} endp={"hello"}/>
                         <LogOutButton/>
                 </header>
             </div>
