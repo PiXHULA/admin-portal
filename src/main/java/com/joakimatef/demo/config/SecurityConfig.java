@@ -48,17 +48,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 authorize
                 .antMatchers("/login", "/", "/resources/**").permitAll())
                 .authorizeRequests()
+//                .antMatchers("/dashboard").hasAuthority("user.read")
+//                .antMatchers("/dashboard").permitAll()
                 .antMatchers(
                         HttpMethod.GET,"/h2-console","/console**",
                         "/index*", "/static/**", "/*.js", "/*.json", "/*.ico","/*.png")
                 .permitAll()
                 .mvcMatchers(HttpMethod.POST,"/authenticate").permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin()
-                .and()
-                .httpBasic()
                 .and()
                 .cors()
                 .and()
