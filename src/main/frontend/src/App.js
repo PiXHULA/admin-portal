@@ -170,6 +170,7 @@ function App() {
                     </body>
                     <footer>
                         <Footer/>
+                        <AuthButton/>
                     </footer>
                 </div>
             </Router>
