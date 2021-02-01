@@ -41,6 +41,7 @@ copyWebApp.dependsOn appNpmBuild
 compileJava.dependsOn copyWebApp
 
 node {
+    // changed back to true before push
     download = true
 
     // Set the work directory for unpacking node

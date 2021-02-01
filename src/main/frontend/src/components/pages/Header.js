@@ -1,12 +1,12 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Link, Redirect} from "react-router-dom";
 import auth from "../../helpers/Auth"
 
 const Header = () => {
 
-    useEffect(()=> {
-        auth.isAuthenticated()
-    },[auth.authenticated])
+    // useEffect(()=> {
+    //     auth.isAuthenticated()
+    // },[auth.authenticated])
 
     return (
         <div style={headerStyle}>
