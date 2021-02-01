@@ -16,9 +16,11 @@ import Dashboard from "./components/pages/Dashboard";
 import Header from "./components/pages/Header";
 import Footer from "./components/pages/Footer";
 import Public from "./components/pages/Public";
+import axios from "axios";
 
 
 const authContext = createContext();
+//Context provides a way to pass data through the component tree without having to pass props down manually at every level.
 
 function useAuth() {
     return useContext(authContext);
@@ -79,9 +81,24 @@ function LoginPage() {
 
 const fakeAuth = {
     isAuthenticated: false,
-    signin(cb) {
-        fakeAuth.isAuthenticated = true;
-        setTimeout(cb, 100); // fake async
+    async signin(cb) {
+        await axios.post('http://localhost:8080/authenticate', {
+                username: 'suAdmin',
+                password: 'wuru'
+            }, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            },
+        ).then((response) => {
+            console.log(response.data.jwt)
+            const token = response.data.jwt;
+            localStorage.setItem("jwt", token)
+            fakeAuth.isAuthenticated = true;
+            cb();
+        }).catch(error => {
+            console.log(error);
+        });
     },
     signout(cb) {
         fakeAuth.isAuthenticated = false;
@@ -132,6 +149,7 @@ function PrivateRoute({children, ...rest}) {
 }
 
 function App() {
+
     return (
         <ProvideAuth>
             <HashRouter>
@@ -144,10 +162,11 @@ function App() {
                         <Route path="/about" component={Public}/>
                         <Route path="/login" component={LoginPage}/>
                         <PrivateRoute path="/dashboard">
-                            <Dashboard/>
+                            <Dashboard auth={AuthButton}/>
                         </PrivateRoute>
+                        <Route path="*" component={ErrorPage}/>
                     </Switch>
-                        
+
                     </div>
                     </body>
                     <footer>
@@ -160,6 +179,12 @@ function App() {
 }
 
 export default App;
+
+const ErrorPage = () => {
+    return (
+    <h2>404 PAGE NOT FOUND</h2>
+    )
+}
 
 const mainDiv = {
     'display': 'flex',
