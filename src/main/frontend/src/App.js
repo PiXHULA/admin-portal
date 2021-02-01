@@ -1,12 +1,11 @@
 import React, {useState, useContext, createContext} from 'react';
 import {
-    BrowserRouter as Router,
-    Link,
+    HashRouter as Router,
     Route,
     Switch,
     useHistory,
     useLocation,
-    Redirect, HashRouter
+    Redirect,
 } from "react-router-dom";
 import './css/App.css';
 
@@ -152,7 +151,7 @@ function App() {
 
     return (
         <ProvideAuth>
-            <HashRouter>
+            <Router>
                 <div>
                     <Header/>
                     <body>
@@ -162,7 +161,7 @@ function App() {
                         <Route path="/about" component={Public}/>
                         <Route path="/login" component={LoginPage}/>
                         <PrivateRoute path="/dashboard">
-                            <Dashboard auth={AuthButton}/>
+                            <Dashboard/>
                         </PrivateRoute>
                         <Route path="*" component={ErrorPage}/>
                     </Switch>
@@ -173,7 +172,7 @@ function App() {
                         <Footer/>
                     </footer>
                 </div>
-            </HashRouter>
+            </Router>
         </ProvideAuth>
     );
 }
