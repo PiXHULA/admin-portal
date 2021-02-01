@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const HelloButton = ({btnText,endp}) => {
+export const EndpointButton = ({btnText,endp}) => {
     return (
         <button onClick={() => {
             if (localStorage.key(0) === 'jwt') {

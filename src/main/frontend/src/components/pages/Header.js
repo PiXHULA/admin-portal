@@ -1,7 +1,13 @@
-import React from "react";
-import {Link} from "react-router-dom";
+import React, {useEffect} from "react";
+import {Link, Redirect} from "react-router-dom";
+import auth from "../../helpers/Auth"
 
 const Header = () => {
+
+    useEffect(()=> {
+        auth.isAuthenticated()
+    },[auth.authenticated])
+
     return (
         <div style={headerStyle}>
             <h2>Turistmo - Admin Portal</h2>
@@ -16,7 +22,9 @@ const Header = () => {
                     <Link to="/about">About</Link>
                 </li>
                 <li style={liStyle}>
-                    <Link to="/login">Login</Link>
+                    {auth.isAuthenticated()
+                        ? <button onClick={()=> auth.logout(()=> <Redirect to={"/"}/>)}>logout</button>
+                        : null }
                 </li>
             </ul>
         </div>
@@ -33,7 +41,7 @@ const ulStyle = {
 const liStyle = {
     'padding-left': '5vh',
 }
-    
+
 
 const headerStyle = {
     'display': 'flex',

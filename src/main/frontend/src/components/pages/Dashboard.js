@@ -1,14 +1,24 @@
 import React from 'react';
-import {HelloButton} from "../buttons/HelloButton";
-import {LogOutButton} from "../buttons/LogOutButton";
+import {EndpointButton} from "../buttons/EndpointButton";
+import auth from "../../helpers/Auth";
 
-const Dashboard = () => {
+const Dashboard = (props) => {
     return (
         <>
         <h2>Dashboard</h2>
-        <HelloButton btnText={"Show us hello"} endp={"/hello"}/>
-        <HelloButton btnText={"Show us wow"} endp={"/wow"}/>
-        <LogOutButton/>
+        <EndpointButton btnText={"Show us hello"} endp={"/hello"}/>
+        <EndpointButton btnText={"Show us wow"} endp={"/wow"}/>
+        <button onClick={() => {
+            if (localStorage.length > 0) {
+                auth.logout(()=>{
+                    console.log("YOU HAVE LOGGED OUT");
+                    localStorage.clear();
+                    props.history.push("/")
+                })
+            }
+        }}>
+            Logout
+        </button>
         </>
     )
 }
