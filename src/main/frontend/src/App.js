@@ -81,7 +81,7 @@ function LoginPage() {
 const fakeAuth = {
     isAuthenticated: false,
     async signin(cb) {
-        await axios.post('http://localhost:8080/authenticate', {
+        await axios.post('authenticate', {
                 username: 'suAdmin',
                 password: 'wuru'
             }, {
