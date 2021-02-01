@@ -6,12 +6,17 @@ import {
     Switch,
     useHistory,
     useLocation,
-    Redirect
+    Redirect, HashRouter
 } from "react-router-dom";
+import './css/App.css';
+
+
 import WelcomePage from "./components/pages/WelcomePage";
 import Dashboard from "./components/pages/Dashboard";
 import Header from "./components/pages/Header";
+import Footer from "./components/pages/Footer";
 import Public from "./components/pages/Public";
+
 
 const authContext = createContext();
 
@@ -66,7 +71,7 @@ function LoginPage() {
 
     return (
         <div>
-            <p>You must log in to view the page at {from.pathname}</p>
+            <h2>You must log in to view the page at {from.pathname}</h2>
             <button onClick={login}>Log in</button>
         </div>
     );
@@ -129,37 +134,34 @@ function PrivateRoute({children, ...rest}) {
 function App() {
     return (
         <ProvideAuth>
-            <Router>
-                <div style={backgroundColor}>
-                    <AuthButton />
+            <HashRouter>
+                <div>
                     <Header/>
                     <body>
                     <div style={mainDiv}>
-                        <WelcomePage>
                     <Switch>
-                        <Route path="/public" component={Public}/>
+                        <Route path="/" exact component={WelcomePage}/>
+                        <Route path="/about" component={Public}/>
                         <Route path="/login" component={LoginPage}/>
                         <PrivateRoute path="/dashboard">
-                            <Dashboard />
+                            <Dashboard/>
                         </PrivateRoute>
                     </Switch>
-                        </WelcomePage>
+                        
                     </div>
                     </body>
                     <footer>
-                        <p>Copyright</p>
+                        <Footer/>
                     </footer>
                 </div>
-            </Router>
+            </HashRouter>
         </ProvideAuth>
     );
 }
 
 export default App;
 
-const backgroundColor = {
-    'backgroundColor': '#282c34',
-    'flex':'1',
+const mainDiv = {
     'display': 'flex',
     'flexDirection': 'column',
     'alignItems': 'center',
@@ -168,15 +170,7 @@ const backgroundColor = {
     'color': 'white'
 };
 
-const mainDiv = {
-    'display': 'flex',
-    'flex':'1',
-    'flexDirection': 'column',
-    'alignItems': 'center',
-    'justifyContent': 'center',
-    'fontSize': 'calc(10px + 2vmin)',
-    'color': 'white'
-};
+
 
 
 

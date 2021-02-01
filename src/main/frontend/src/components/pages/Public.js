@@ -2,7 +2,7 @@ import React from "react";
 
 const Public = () => {
     return (
-            <h2>Public</h2>
+            <h2>About</h2>
     )
 }
 

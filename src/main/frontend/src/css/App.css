@@ -1,0 +1,17 @@
+* {
+  color: white;
+  background-color: #282c34;
+  text-decoration: none;
+}
+
+Body {
+  min-height: 70vh;
+  justify-content: center;
+  align-items: center;
+}
+
+Footer {
+  justify-content: center;
+  align-items: center;
+  min-height: 1vh;
+}

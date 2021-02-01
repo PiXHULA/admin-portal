@@ -2,7 +2,7 @@ import React from "react";
 
 const WelcomePage = () => {
     return (
-            <h3>PLEASE LOG IN FOR THE FIRST TIME</h3>
+            <h2>Welcome to the portal, please log in in order to use</h2>
     )
 }
 
