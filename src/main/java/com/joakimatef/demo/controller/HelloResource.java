@@ -2,11 +2,10 @@ package com.joakimatef.demo.controller;
 
 import com.joakimatef.demo.models.AuthenticationRequest;
 import com.joakimatef.demo.models.AuthenticationResponse;
-import com.joakimatef.demo.security.JpaUserDetailService;
-import com.joakimatef.demo.security.permission.UserCreatePermission;
-import com.joakimatef.demo.security.permission.UserReadPermission;
+import com.joakimatef.demo.service.security.JpaUserDetailService;
+import com.joakimatef.demo.service.security.permission.UserCreatePermission;
+import com.joakimatef.demo.service.security.permission.UserReadPermission;
 import com.joakimatef.demo.util.JwtUtil;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-
 public class HelloResource {
 
     private final AuthenticationManager authenticationManager;

@@ -1,4 +1,4 @@
-package com.joakimatef.demo.security;
+package com.joakimatef.demo.service.security;
 
 
 import com.joakimatef.demo.repository.security.UserRepository;

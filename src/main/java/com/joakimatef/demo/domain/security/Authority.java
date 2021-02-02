@@ -1,5 +1,6 @@
 package com.joakimatef.demo.domain.security;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Authority {
     private String permission;
 
     @ManyToMany(mappedBy = "authorities")
+    @JsonIgnore
     private Set<Role> roles;
 
 }

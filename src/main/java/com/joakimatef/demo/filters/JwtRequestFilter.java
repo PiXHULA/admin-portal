@@ -1,7 +1,7 @@
 package com.joakimatef.demo.filters;
 
 
-import com.joakimatef.demo.security.JpaUserDetailService;
+import com.joakimatef.demo.service.security.JpaUserDetailService;
 import com.joakimatef.demo.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

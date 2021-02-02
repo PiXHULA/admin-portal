@@ -6,10 +6,9 @@ import com.joakimatef.demo.domain.security.User;
 import com.joakimatef.demo.repository.security.AuthorityRepository;
 import com.joakimatef.demo.repository.security.RoleRepository;
 import com.joakimatef.demo.repository.security.UserRepository;
-import com.joakimatef.demo.security.PasswordEncoderFactory;
+import com.joakimatef.demo.service.security.PasswordEncoderFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

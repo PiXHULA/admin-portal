@@ -1,4 +1,4 @@
-package com.joakimatef.demo.security.permission;
+package com.joakimatef.demo.service.security.permission;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 

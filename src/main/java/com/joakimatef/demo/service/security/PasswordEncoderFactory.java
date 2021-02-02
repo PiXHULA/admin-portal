@@ -1,4 +1,4 @@
-package com.joakimatef.demo.security;
+package com.joakimatef.demo.service.security;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;

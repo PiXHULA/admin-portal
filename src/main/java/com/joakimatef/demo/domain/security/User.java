@@ -1,5 +1,8 @@
 package com.joakimatef.demo.domain.security;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,7 +40,6 @@ public class User implements UserDetails, CredentialsContainer {
     @Builder.Default
     private Boolean enabled = true;
 
-
     @Singular
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
@@ -46,6 +48,7 @@ public class User implements UserDetails, CredentialsContainer {
     private Set<Role> roles;
 
     @Transient
+    @JsonIgnore
     public Set<GrantedAuthority> getAuthorities(){
         return this.roles.stream()
                 .map(Role::getAuthorities)
@@ -55,9 +58,7 @@ public class User implements UserDetails, CredentialsContainer {
     }
 
     @Override
-    public void eraseCredentials() {
-//        this.password = null;
-    }
+    public void eraseCredentials() {}
 
 
     @Override
