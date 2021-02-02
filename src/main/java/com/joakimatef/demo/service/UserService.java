@@ -6,7 +6,10 @@ import com.joakimatef.demo.repository.security.RoleRepository;
 import com.joakimatef.demo.repository.security.UserRepository;
 import com.joakimatef.demo.service.security.PasswordEncoderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -19,6 +22,11 @@ public class UserService {
         this.roleRepository = roleRepository;
     }
 
+    public ResponseEntity<?> getAllUsers(){
+        List<User> allUsers = userRepository.findAll();
+        return ResponseEntity.ok(allUsers);
+    }
+
     public User createAdmin(User user){
         Role adminRole = roleRepository.findByRoleName("ADMIN").orElseThrow(() -> new RuntimeException("Role not found"));
 
@@ -28,4 +36,22 @@ public class UserService {
                 .role(adminRole)
                 .build());
     }
+
+    public void deletedAdmin(User user){
+        User foundUser = userRepository.findByUsername(user.getUsername())
+                .orElseThrow(()-> new NullPointerException("Admin not found"));
+
+        userRepository.delete(foundUser);
+    }
+
+    public void saveEditAdmin(User editAdmin){
+        User getUserToEdit = userRepository.findUserById(editAdmin.getId())
+                .orElseThrow(()-> new NullPointerException("Admin not found"));
+
+        getUserToEdit.setUsername(editAdmin.getUsername());
+        getUserToEdit.setPassword(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode(editAdmin.getPassword()));
+
+        userRepository.save(getUserToEdit);
+    }
+
 }
