@@ -55,7 +55,7 @@ public class UserController {
         try{
             userService.deletedAdmin(user);
         } catch (Exception e) {
-            throw new RuntimeException("Could not create it");
+            throw new RuntimeException("Could not delete");
         }
             return ResponseEntity.ok(HttpStatus.OK);
     }
