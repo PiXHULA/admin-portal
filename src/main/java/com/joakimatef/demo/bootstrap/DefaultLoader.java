@@ -44,17 +44,26 @@ public class DefaultLoader implements CommandLineRunner {
         Authority updateUser = authorityRepository.save(Authority.builder().permission("user.update").build());
         Authority deleteUser = authorityRepository.save(Authority.builder().permission("user.delete").build());
 
+        Authority readUserAdmin = authorityRepository.save(Authority.builder().permission("user.admin.read").build());
+        Authority updateUserAdmin = authorityRepository.save(Authority.builder().permission("user.admin.update").build());
+
         Role superAdminRole = roleRepository.save(Role.builder().roleName("SUPERADMIN").build());
         Role adminRole = roleRepository.save(Role.builder().roleName("ADMIN").build());
 
         superAdminRole.setAuthorities(new HashSet<>(Set.of(createUser, readUser, updateUser, deleteUser)));
-        adminRole.setAuthorities(new HashSet<>(Set.of(readUser, updateUser)));
+        adminRole.setAuthorities(new HashSet<>(Set.of(readUserAdmin, updateUserAdmin)));
 
         roleRepository.saveAll(Arrays.asList(superAdminRole, adminRole));
 
         userRepository.save(User.builder()
                 .username("suAdmin")
                 .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode("wuru"))
+                .role(superAdminRole)
+                .build());
+
+        userRepository.save(User.builder()
+                .username("supAdmin")
+                .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode("zuru"))
                 .role(superAdminRole)
                 .build());
 

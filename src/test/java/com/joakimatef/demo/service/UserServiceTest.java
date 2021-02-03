@@ -6,6 +6,7 @@ import com.joakimatef.demo.repository.security.RoleRepository;
 import com.joakimatef.demo.repository.security.UserRepository;
 import com.joakimatef.demo.service.security.PasswordEncoderFactory;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -48,7 +49,6 @@ class UserServiceTest {
                 .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode("guru"))
                 .role(adminRole)
                 .build();
-
         allUsersList.add(adminUser);
     }
 
@@ -97,11 +97,11 @@ class UserServiceTest {
 
     }
 
+    @Disabled
     @Test
     void saveEditAdmin() {
         //given
         given(userRepository.findUserById(anyLong())).willReturn(Optional.of(adminUser));
-
         //when
         adminUser.setUsername("newUsername");
         userService.saveEditAdmin(adminUser);

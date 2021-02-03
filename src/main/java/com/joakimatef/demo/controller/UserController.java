@@ -9,13 +9,8 @@ import com.joakimatef.demo.service.security.permission.UserUpdatePermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Optional;
-
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @RequestMapping("api/v1/user")
@@ -31,44 +26,38 @@ public class UserController {
 
     @GetMapping("/users")
     @UserReadPermission
-    public ResponseEntity<?> getAllUsersFromService(){
+    public ResponseEntity<?> getAllUsersFromService() {
         return userService.getAllUsers();
     }
 
 
     @PostMapping("/post")
     @UserCreatePermission
-    public ResponseEntity<User> createAdmin(@RequestBody User user){
+    public ResponseEntity<User> createAdmin(@RequestBody User user) {
         User newUser;
-        try{
-             newUser = userService.createAdmin(user);
+        try {
+            newUser = userService.createAdmin(user);
         } catch (Exception e) {
             throw new RuntimeException("Could not create it");
         }
-            return ResponseEntity.ok(newUser);
+        return ResponseEntity.ok(newUser);
     }
 
     @DeleteMapping("/delete")
     @UserDeletePermission
-    public ResponseEntity<?> deletedAdmin(@RequestBody User user){
+    public ResponseEntity<?> deletedAdmin(@RequestBody User user) {
 
-        try{
+        try {
             userService.deletedAdmin(user);
         } catch (Exception e) {
             throw new RuntimeException("Could not delete");
         }
-            return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PatchMapping("/edit")
     @UserUpdatePermission
-    public ResponseEntity<?> updateAdmin(@RequestBody User user){
-
-        try {
-            userService.saveEditAdmin(user);
-            return  ResponseEntity.ok("Admin is edit successfully!");
-        } catch (Exception e){
-            throw new ResponseStatusException(BAD_REQUEST, e.getMessage());
-        }
+    public ResponseEntity<?> updateAdmin(Authentication authentication, @RequestBody User user) {
+        return userService.saveEditAdmin2(authentication, user);
     }
 }

@@ -6,6 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("hasAuthority('user.read')")
+@PreAuthorize("hasAnyAuthority('user.read','user.admin.read')")
 public @interface UserReadPermission {
 }
