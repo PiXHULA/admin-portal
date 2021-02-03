@@ -1,45 +1,53 @@
 package com.joakimatef.demo.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.joakimatef.demo.controller.UserController;
 import com.joakimatef.demo.domain.security.Role;
 import com.joakimatef.demo.domain.security.User;
 import com.joakimatef.demo.service.UserService;
 import com.joakimatef.demo.service.security.PasswordEncoderFactory;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.*;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Disabled
-@ExtendWith(MockitoExtension.class)
+
+@SpringBootTest(webEnvironment = RANDOM_PORT)
 public class UserControllerTest {
 
-    @Mock
-    UserService userService;
+
+    public static final String API_URI = "/api/v1/user/";
+
+    @Autowired
+    WebApplicationContext wac;
 
     MockMvc mockMvc;
 
-    @InjectMocks
-    UserController userController;
+    @MockBean
+    UserService userService;
 
     User adminUser;
     Role adminRole;
-
+    final ObjectMapper mapper = new ObjectMapper();
+    String jsonContent;
     @BeforeEach
-    void setUp() {
+    void setUp() throws JsonProcessingException {
         adminRole = new Role();
         adminUser = User.builder()
                 .id(1L)
@@ -48,16 +56,85 @@ public class UserControllerTest {
                 .role(adminRole)
                 .build();
         given(userService.createAdmin(any(User.class))).willReturn(adminUser);
-        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+        mockMvc = MockMvcBuilders
+                .webAppContextSetup(wac)
+                .apply(springSecurity())
+                .build();
+
+        jsonContent = mapper.writeValueAsString(adminUser);
     }
 
     @Test
-    void createAdmin() throws Exception {
-        final ObjectMapper mapper = new ObjectMapper();
-        final String jsonContent = mapper.writeValueAsString(adminUser);
-        System.out.println(jsonContent);
-//        mockMvc.perform(post("/api/v1/user/post")
-//                .param("user", jsonContent))
-//                .andExpect(status().isOk());
+    @DisplayName("It will create admin with correct authority")
+    @WithMockUser(authorities = {"user.create"})
+    void createAdminWithCreateAuth() throws Exception {
+        mockMvc.perform(post(API_URI +"post")
+                .content(jsonContent)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("It will not create admin without correct authority")
+    @WithMockUser(authorities = {"user.read"})
+    void createAdminWithReadAuth() throws Exception {
+        mockMvc.perform(post(API_URI + "post")
+                .content(jsonContent)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @DisplayName("It will list all users with read authority")
+    @WithMockUser(authorities = {"user.read"})
+    void getAllUsersFromService() throws Exception {
+        mockMvc.perform(get(API_URI + "users"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("It will delete admin with correct authority")
+    @WithMockUser(authorities = {"user.delete"})
+    void deletedAdminWithDeleteAuth() throws Exception {
+        mockMvc.perform(delete(API_URI + "delete")
+                .content(jsonContent)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("It will not delete admin without correct authority")
+    @WithMockUser(authorities = {"user.read"})
+    void deletedAdminWithReadAuth() throws Exception {
+        mockMvc.perform(delete(API_URI + "delete")
+                .content(jsonContent)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @DisplayName("It will update admin with correct authority")
+    @WithMockUser(authorities = {"user.update"})
+    void updateAdminWithUpdateAuth() throws Exception {
+        mockMvc.perform(patch(API_URI + "edit")
+                .content(jsonContent)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("It will not update admin without correct authority")
+    @WithMockUser(authorities = {"user.read"})
+    void updateAdminWithReadAuth() throws Exception {
+        mockMvc.perform(patch(API_URI + "edit")
+                .content(jsonContent)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
     }
 }
