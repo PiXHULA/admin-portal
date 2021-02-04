@@ -97,7 +97,7 @@ class UserServiceTest {
 
     }
 
-    @Disabled
+
     @Test
     void saveEditAdmin() {
         //given
