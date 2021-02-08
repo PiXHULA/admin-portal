@@ -42,24 +42,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests(authorize ->
                 authorize
-                .antMatchers("/login", "/", "/resources/**").permitAll())
-                .authorizeRequests()
-//                .antMatchers("/dashboard").hasAuthority("user.read")
-//                .antMatchers("/dashboard").permitAll()
-                .antMatchers(
-                        HttpMethod.GET,"/h2-console","/console**",
-                        "/index*", "/static/**", "/*.js", "/*.json", "/*.ico","/*.png")
-                .permitAll()
-                .mvcMatchers(HttpMethod.POST,"/authenticate").permitAll()
-                .and()
+                .antMatchers("/",
+                        "/resources/**",
+                        "/index*",
+                        "/static/**",
+                        "/*.js",
+                        "/*.json",
+                        "/*.ico",
+                        "/*.png").permitAll()
+                .mvcMatchers(HttpMethod.POST,"/authenticate").permitAll())
                 .cors()
                 .and()
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS); //Forcing SpringSecurity to NOT create a Session;
-
-        //H2 CONSOLE
-        http.headers().frameOptions().sameOrigin();
 
         http
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

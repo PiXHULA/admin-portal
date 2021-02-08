@@ -1,5 +1,6 @@
 package com.joakimatef.demo.service;
 
+import com.joakimatef.demo.bootstrap.exceptions.UserNotFoundException;
 import com.joakimatef.demo.domain.security.Role;
 import com.joakimatef.demo.domain.security.User;
 import com.joakimatef.demo.repository.security.RoleRepository;
@@ -7,12 +8,13 @@ import com.joakimatef.demo.repository.security.UserRepository;
 import com.joakimatef.demo.service.security.PasswordEncoderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.http.ResponseEntity.badRequest;
 
 @Service
 public class UserService {
@@ -31,69 +33,53 @@ public class UserService {
         return ResponseEntity.ok(allUsers);
     }
 
-    public User createAdmin(User user) {
+    public ResponseEntity<?> createAdmin(User user) {
         Role adminRole = roleRepository.findByRoleName("ADMIN").orElseThrow(() -> new RuntimeException("Role not found"));
 
-        return userRepository.save(User.builder()
+        User newAdmin = userRepository.save(User.builder()
                 .username(user.getUsername())
                 .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode(user.getPassword()))
                 .role(adminRole)
                 .build());
+
+        return ResponseEntity.status(201).body(String.format("%s has been created", newAdmin.getUsername()));
     }
 
-    public void deletedAdmin(User user) {
+    public void deletedAdmin(User user) throws UserNotFoundException {
         User foundUser = userRepository.findByUsername(user.getUsername())
-                .orElseThrow(() -> new NullPointerException("Admin not found"));
+                .orElseThrow(() -> new UserNotFoundException(String.format("User: %s couldn't be found",user.getUsername())));
 
         userRepository.delete(foundUser);
     }
 
-    public void saveEditAdmin(User editAdmin) {
-        User getUserToEdit = userRepository.findUserById(editAdmin.getId())
-                .orElseThrow(() -> new NullPointerException("Admin not found"));
+    public ResponseEntity<?> updateAdmin(User authenticatedUser, User userToEdit) throws UserNotFoundException {
 
-        getUserToEdit.setUsername(editAdmin.getUsername());
-        getUserToEdit.setPassword(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode(editAdmin.getPassword()));
+        User foundUser = userRepository.findUserById(userToEdit.getId())
+                .orElseThrow(() -> new UserNotFoundException(String.format("User: %s couldn't be found",userToEdit.getUsername())));
+        foundUser.setPassword(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode(userToEdit.getPassword()));
 
-        userRepository.save(getUserToEdit);
-    }
-
-    public ResponseEntity<?> saveEditAdmin2(Authentication authentication, @RequestBody User user) {
-        User authenticationUser = (User) authentication.getPrincipal();
-        User getUserToEdit = userRepository.findUserById(user.getId())
-                .orElseThrow(() -> new NullPointerException("Admin not found"));
-
-            if (authenticationUser.getId().equals(getUserToEdit.getId()) &&
-                    authenticationUser.getAuthorities().toString().contains("user.update")) {
-
-                getUserToEdit.setUsername(user.getUsername());
-                getUserToEdit.setPassword(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode(user.getPassword()));
-                userRepository.save(getUserToEdit);
-               return ResponseEntity.ok("SuperAdmin is edit successfully!");
+            if (isAuthUserAllowedToUpdateAnotherAdmin(authenticatedUser, foundUser)) { //Superuser updating another admin
+                userRepository.save(foundUser);
+                return ResponseEntity.ok(String.format("Update successful for %s by %s",foundUser.getUsername(),authenticatedUser.getUsername()));
 
             }
-            if (!authenticationUser.getId().equals(getUserToEdit.getId()) &&
-                    authenticationUser.getAuthorities().toString().contains("user.update") &&
-                    getUserToEdit.getAuthorities().toString().contains("user.admin.update")) {
-
-                getUserToEdit.setUsername(user.getUsername());
-                getUserToEdit.setPassword(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode(user.getPassword()));
-                userRepository.save(getUserToEdit);
-                return ResponseEntity.ok("SuperAdmin edit Admin successfully!");
-
-
-            }
-            if (authenticationUser.getId().equals(getUserToEdit.getId())) {
-
-                getUserToEdit.setUsername(user.getUsername());
-                getUserToEdit.setPassword(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode(user.getPassword()));
-                userRepository.save(getUserToEdit);
-               return ResponseEntity.ok("Admin edit successfully!");
+            if (isAuthUserTryingToUpdateItself(authenticatedUser, foundUser)) { //Admin updating itself
+                userRepository.save(foundUser);
+               return ResponseEntity.ok(String.format("Update successful for %s",foundUser.getUsername()));
 
             }
 
-           return ResponseEntity.of(Optional.of("Not Allowed"));
+           return ResponseEntity.status(403).body(String.format("You're not allowed to update %s",foundUser.getUsername()));
 
     }
 
+    private boolean isAuthUserTryingToUpdateItself(User authenticatedUser, User foundUser) {
+        return authenticatedUser.getId().equals(foundUser.getId());
+    }
+
+    private boolean isAuthUserAllowedToUpdateAnotherAdmin(User authenticatedUser, User foundUser) {
+        return !authenticatedUser.getId().equals(foundUser.getId()) &&
+                authenticatedUser.getAuthorities().toString().contains("user.update") &&
+                foundUser.getAuthorities().toString().contains("user.admin.update");
+    }
 }

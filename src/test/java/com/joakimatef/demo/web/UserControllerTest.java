@@ -55,7 +55,7 @@ public class UserControllerTest {
                 .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode("guru"))
                 .role(adminRole)
                 .build();
-        given(userService.createAdmin(any(User.class))).willReturn(adminUser);
+//        given(userService.createAdmin(any(User.class))).willReturn(adminUser);
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(wac)
                 .apply(springSecurity())

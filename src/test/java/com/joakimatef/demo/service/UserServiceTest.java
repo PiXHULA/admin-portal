@@ -1,12 +1,13 @@
 package com.joakimatef.demo.service;
 
+import com.joakimatef.demo.bootstrap.exceptions.UserNotFoundException;
+import com.joakimatef.demo.domain.security.Authority;
 import com.joakimatef.demo.domain.security.Role;
 import com.joakimatef.demo.domain.security.User;
 import com.joakimatef.demo.repository.security.RoleRepository;
 import com.joakimatef.demo.repository.security.UserRepository;
 import com.joakimatef.demo.service.security.PasswordEncoderFactory;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -36,19 +37,56 @@ class UserServiceTest {
     UserService userService;
 
     User adminUser;
+    User adminUser2;
+    User suAdminUser;
+    User suAdminUser2;
     Role adminRole;
+    Role suAdminRole;
     List<User> allUsersList;
 
     @BeforeEach
     void setUp() {
         allUsersList = new ArrayList<>();
-        adminRole = new Role();
+        adminRole = Role.builder()
+                .authority(Authority.builder().permission("user.admin.read").build())
+                .authority(Authority.builder().permission("user.admin.update").build())
+                .build();
+
+        suAdminRole = Role.builder()
+                .authority(Authority.builder().permission("user.read").build())
+                .authority(Authority.builder().permission("user.update").build())
+                .authority(Authority.builder().permission("user.delete").build())
+                .authority(Authority.builder().permission("user.create").build())
+                .build();
+
         adminUser = User.builder()
                 .id(1L)
                 .username("adminUser")
                 .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode("guru"))
                 .role(adminRole)
                 .build();
+
+        adminUser2 = User.builder()
+                .id(2L)
+                .username("adminUser2")
+                .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode("guru"))
+                .role(adminRole)
+                .build();
+
+        suAdminUser = User.builder()
+                .id(3L)
+                .username("suAdminUser")
+                .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode("guru"))
+                .role(suAdminRole)
+                .build();
+
+        suAdminUser2 = User.builder()
+                .id(4L)
+                .username("suAdminUser2")
+                .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode("guru"))
+                .role(suAdminRole)
+                .build();
+
         allUsersList.add(adminUser);
     }
 
@@ -59,12 +97,10 @@ class UserServiceTest {
         given(userRepository.save(any(User.class))).willReturn(adminUser);
 
         //when
-        User createdUser = userService.createAdmin(adminUser);
+        userService.createAdmin(adminUser);
 
         //then
         then(userRepository).should().save(any(User.class));
-        assertEquals("adminUser",createdUser.getUsername());
-        assertTrue(createdUser.getRoles().contains(adminRole));
     }
 
     @Test
@@ -84,7 +120,7 @@ class UserServiceTest {
     }
 
     @Test
-    void deletedAdmin() {
+    void deletedAdmin() throws UserNotFoundException {
         //given
         given(userRepository.findByUsername(anyString())).willReturn(Optional.of(adminUser));
 
@@ -94,23 +130,23 @@ class UserServiceTest {
         //then
         then(userRepository).should().delete(adminUser);
         then(userRepository).shouldHaveNoMoreInteractions();
-
     }
 
 
     @Test
-    void saveEditAdmin() {
+    void saveEditAdminTest() throws UserNotFoundException {
+
         //given
         given(userRepository.findUserById(anyLong())).willReturn(Optional.of(adminUser));
+        given(userRepository.findUserById(anyLong())).willReturn(Optional.of(suAdminUser));
         //when
         adminUser.setUsername("newUsername");
-        userService.saveEditAdmin(adminUser);
+        userService.updateAdmin(suAdminUser,adminUser);
         Optional<User> userById = userRepository.findUserById(adminUser.getId());
 
         //then
         then(userRepository).should().save(adminUser);
         assertEquals("newUsername",userById.get().getUsername());
         assertNotEquals("originalName",userById.get().getUsername());
-
     }
 }
