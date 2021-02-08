@@ -6,12 +6,13 @@ import {
 } from "react-router-dom";
 import './css/App.css';
 import LandingPage from "./components/pages/LandingPage";
-import Dashboard from "./components/pages/Dashboard";
 import Header from "./components/pages/Header";
 import Footer from "./components/pages/Footer";
 import About from "./components/pages/About";
 import {ProtectedRoute} from "./helpers/ProtectedRoute";
 import {ErrorPage} from "./components/pages/ErrorPage";
+import Dashboard from "./components/pages/Dashboard";
+import Edit from "./components/pages/Edit";
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
                         <Route path="/" exact component={LandingPage}/>
                         <Route path="/about" component={About}/>
                         <ProtectedRoute path="/dashboard" component={Dashboard}/>
+                        <ProtectedRoute path="/edit" component={Edit}/>
                         <Route path="*" component={ErrorPage}/>
                     </Switch>
                     </div>

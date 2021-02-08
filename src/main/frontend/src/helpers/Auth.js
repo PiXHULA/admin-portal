@@ -25,6 +25,25 @@ class Auth {
         });
     }
 
+     editUser({id,username,password}, cb)  {
+        axios.patch('api/v1/user/edit', {
+            id:id,
+            username: username,
+            password: password
+            }, {
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+                }
+            },
+        ).then((response) => {
+            console.log(response.data)
+            cb();
+        }).catch(error => {
+            console.log(error);
+        });
+    }
+
 
 logout(cb)
 {

@@ -110,7 +110,7 @@ class UserServiceTest {
         given(userRepository.findAll()).willReturn(allUsersList);
 
         //when
-        ResponseEntity<?> allUsers = userService.getAllUsers();
+        ResponseEntity<?> allUsers = userService.getAllUsers(suAdminUser);
 
         //then
         then(userRepository).should().findAll();
@@ -126,7 +126,7 @@ class UserServiceTest {
         given(userRepository.findUserById(anyLong())).willReturn(Optional.of(adminUser));
 
         //when
-        userService.deleteAdmin(suAdminUser,adminUser);
+        userService.deleteAdmin(suAdminUser,adminUser.getId());
 
         //then
         then(userRepository).should().delete(adminUser);

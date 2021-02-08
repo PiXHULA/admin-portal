@@ -27,8 +27,26 @@ public class UserController {
 
     @GetMapping("/users")
     @UserReadPermission
-    public ResponseEntity<?> getAllUsersFromService() {
-        return userService.getAllUsers();
+    public ResponseEntity<?> getAllUsers() {
+        User authenticatedUser = new User();
+        try {
+            authenticatedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            return userService.getAllUsers(authenticatedUser);
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body("Not Found");
+        }
+    }
+
+    @GetMapping("/user")
+    @UserReadPermission
+    public ResponseEntity<?> getUser() {
+        User authenticatedUser = new User();
+        try {
+            authenticatedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            return userService.getUser(authenticatedUser);
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body("Not Found");
+        }
     }
 
 
@@ -44,14 +62,14 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     @UserDeletePermission
-    public ResponseEntity<?> deletedAdmin(@RequestBody User user) throws UserNotFoundException {
+    public ResponseEntity<?> deletedAdmin(@PathVariable Long id) throws UserNotFoundException {
         try {
             authenticatedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            return userService.deleteAdmin(authenticatedUser, user);
+            return userService.deleteAdmin(authenticatedUser, id);
         } catch (Exception e) {
-            return userService.deleteAdmin(authenticatedUser, user);
+            return userService.deleteAdmin(authenticatedUser, id);
         }
     }
 
