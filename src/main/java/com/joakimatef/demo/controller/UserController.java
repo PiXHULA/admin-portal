@@ -8,7 +8,6 @@ import com.joakimatef.demo.service.security.permission.UserDeletePermission;
 import com.joakimatef.demo.service.security.permission.UserReadPermission;
 import com.joakimatef.demo.service.security.permission.UserUpdatePermission;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     UserService userService;
+    User authenticatedUser;
 
     @Autowired
     public UserController(UserService userService) {
@@ -35,8 +35,10 @@ public class UserController {
     @PostMapping("/post")
     @UserCreatePermission
     public ResponseEntity<?> createAdmin(@RequestBody User user) {
+        User newAdmin;
         try {
-            return userService.createAdmin(user);
+            newAdmin = userService.createAdmin(user);
+            return ResponseEntity.status(201).body(String.format("%s has been created", newAdmin.getUsername()));
         } catch (Exception e) {
             return ResponseEntity.status(403).body("You're not allowed to create another user");
         }
@@ -44,13 +46,13 @@ public class UserController {
 
     @DeleteMapping("/delete")
     @UserDeletePermission
-    public ResponseEntity<?> deletedAdmin(@RequestBody User user) {
+    public ResponseEntity<?> deletedAdmin(@RequestBody User user) throws UserNotFoundException {
         try {
-            userService.deletedAdmin(user);
+            authenticatedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            return userService.deleteAdmin(authenticatedUser, user);
         } catch (Exception e) {
-            return ResponseEntity.status(403).body("You're not allowed to delete another user");
+            return userService.deleteAdmin(authenticatedUser, user);
         }
-        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PatchMapping("/edit")

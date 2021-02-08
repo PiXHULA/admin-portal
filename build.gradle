@@ -30,8 +30,8 @@ task copyWebApp(type: Copy) {
 task appNpmInstall(type: NpmTask) {
     description = "Installs all dependencies from package.json"
     workingDir = file("${project.projectDir}/src/main/frontend")
-    args = ["ci","--no-optional"]
-//    args = ["install"]
+//    args = ["ci","--no-optional"]
+    args = ["install"]
 }
 
 task appNpmBuild(type: NpmTask) {

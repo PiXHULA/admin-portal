@@ -6,6 +6,7 @@ import com.joakimatef.demo.domain.security.Role;
 import com.joakimatef.demo.domain.security.User;
 import com.joakimatef.demo.repository.security.RoleRepository;
 import com.joakimatef.demo.repository.security.UserRepository;
+import com.joakimatef.demo.service.security.JpaUserDetailService;
 import com.joakimatef.demo.service.security.PasswordEncoderFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -120,12 +121,12 @@ class UserServiceTest {
     }
 
     @Test
-    void deletedAdmin() throws UserNotFoundException {
+    void deleteAdmin() throws UserNotFoundException {
         //given
-        given(userRepository.findByUsername(anyString())).willReturn(Optional.of(adminUser));
+        given(userRepository.findUserById(anyLong())).willReturn(Optional.of(adminUser));
 
         //when
-        userService.deletedAdmin(adminUser);
+        userService.deleteAdmin(suAdminUser,adminUser);
 
         //then
         then(userRepository).should().delete(adminUser);
@@ -138,7 +139,7 @@ class UserServiceTest {
 
         //given
         given(userRepository.findUserById(anyLong())).willReturn(Optional.of(adminUser));
-        given(userRepository.findUserById(anyLong())).willReturn(Optional.of(suAdminUser));
+
         //when
         adminUser.setUsername("newUsername");
         userService.updateAdmin(suAdminUser,adminUser);
