@@ -82,6 +82,11 @@ const Dashboard = (props) => {
             ))}
         </ul>
         <button onClick={() => {
+                    props.history.push("/create")
+        }}>
+            Create a new admin
+        </button>
+        <button onClick={() => {
             if (localStorage.length > 0) {
                 auth.logout(() => {
                     console.log("YOU HAVE LOGGED OUT");
