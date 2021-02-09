@@ -48,7 +48,7 @@ compileTestJava.dependsOn compileJava
 
 node {
     // changed back to true before push
-    download = true
+    download = false
 
     // Set the work directory for unpacking node
     workDir = file("${project.buildDir}/nodejs")

@@ -11,7 +11,7 @@ const Edit = (props) => {
     });
 
     const getUser = () => {
-        axios.get(`api/v1/user/user`,
+        axios.get(`api/v1/user/user/`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -38,9 +38,9 @@ const Edit = (props) => {
             <form>
                 <label>
                     Name:
-                    <input type="text" disabled={true} placeholder={user.name}/> <br/>
+                    <input type="text" readOnly={true} placeholder={user.name}/> <br/>
                     Change password:
-                    <input type="text" onChange={e => setPassword(e.target.value)}/>
+                    <input type="password" onChange={e => setPassword(e.target.value)}/>
                 </label>
                 <button  onClick={() => {
                     auth.editUser(user, () => {

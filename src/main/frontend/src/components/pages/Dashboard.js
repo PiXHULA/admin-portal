@@ -47,7 +47,7 @@ const Dashboard = (props) => {
     }, []);
 
 
-    const deleteUser = (user) => {
+    const deleteUser = (user,cb) => {
         axios.delete(`api/v1/user/delete/${user.id}`,
             {
                 headers: {
@@ -58,29 +58,38 @@ const Dashboard = (props) => {
             console.log("GET USER " + user.username)
             console.log(response)
             setUserList(response.data)
+            cb()
         }).catch(error => {
             console.log(error);
         })
     }
 
+    const getUserList = () => {
+        return (
+            <ul>
+                {[...userList].map((user) => (
+                    <li>
+                        {user.username}
+                        <button onClick={() => {
+                            localStorage.setItem("user",user.username)
+                            props.history.push("/edit")
+                        }}>Edit
+                        </button>
+                        <button onClick={()=>{
+                            deleteUser(user,()=>{
+                                getUsers()
+                            })
+                        }}>Delete</button>
+                    </li>
+                ))}
+            </ul>
+        )
+    }
+
     return (<div>
         <h2>Dashboard</h2>
 
-        <ul>
-            {userList.map((user) => (
-                <li>
-                    {user.username}
-                    <button onClick={() => {
-                        localStorage.setItem("user",user.username)
-                        props.history.push("/edit")
-                    }}>Edit
-                    </button>
-                    <button onClick={()=>{
-                        deleteUser(user)
-                    }}>Delete</button>
-                </li>
-            ))}
-        </ul>
+        {getUserList()}
         <button onClick={() => {
             if (localStorage.length > 0) {
                 auth.logout(() => {
