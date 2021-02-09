@@ -1,7 +1,14 @@
 import React, {useState} from "react";
 import auth from "../../helpers/Auth";
+import {useHistory} from "react-router-dom";
 
-const Create = (props) => {
+const Create = () => {
+
+    let history = useHistory();
+
+    const handleClick = () => {
+        history.push("/dashboard");
+    }
 
     const [user, setUser] = useState({
         username: "",
@@ -14,16 +21,17 @@ const Create = (props) => {
             <form>
                 <label>
                     Name:
-                    <input type="text" placeholder="name" onChange={event => setUser({...user,username:event.target.value})}/> <br/>
+                    <input type="text" placeholder="name"
+                           onChange={event => setUser({...user, username: event.target.value})}/> <br/>
                     Password:
-                    <input type="text" placeholder="name" onChange={event => setUser({...user,password:event.target.value})}/>
+                    <input type="text" placeholder="name"
+                           onChange={event => setUser({...user, password: event.target.value})}/>
                 </label>
-                <button  onClick={() => {
-                   auth.createUser(user, () => {
-                       if (auth.isAuthenticated()) {
-                           props.history.push("?#/dashboard")
-                       }
-                    })}}>
+                <button type="button" onClick={() => {
+                    auth.createUser(user, () => {
+                        handleClick()
+                    })
+                }}>
                     Save
                 </button>
             </form>

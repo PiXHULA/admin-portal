@@ -40,6 +40,7 @@ class Auth {
         ).then((response) => {
             console.log("EDIT")
             console.log(response.data)
+            localStorage.removeItem("user")
             cb();
         }).catch(error => {
             console.log(error);

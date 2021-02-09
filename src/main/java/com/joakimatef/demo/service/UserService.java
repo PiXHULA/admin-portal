@@ -60,7 +60,16 @@ public class UserService {
             userRepository.delete(foundUser);
             return ResponseEntity.ok(String.format("Successfully deleted %s", foundUser.getUsername()));
         }
-        return ResponseEntity.status(403).body(String.format("You're not allowed to delete %s", foundUser.getUsername()));
+        return ResponseEntity.badRequest().body(String.format("You're not allowed to delete %s", foundUser.getUsername()));
+    }
+
+    public ResponseEntity<?> getUserToEdit(User user, Long id) throws UserNotFoundException {
+        User foundUser = userRepository.findUserById(id)
+                .orElseThrow(() -> new UserNotFoundException("User couldn't be found"));
+        if (isNotTheSameUserButHasAuthority(user, foundUser) || isTheSameUser(user,foundUser)) { //Superuser deleting another admin
+            return ResponseEntity.ok().body(foundUser);
+        }
+        return ResponseEntity.status(403).body(String.format("You're not allowed to edit %s", foundUser.getUsername()));
     }
 
     public ResponseEntity<?> updateAdmin(User authenticatedUser, User userToEdit) throws UserNotFoundException {
@@ -96,9 +105,4 @@ public class UserService {
                 foundUser.getAuthorities().toString().contains("user.admin.update");
     }
 
-    public ResponseEntity<?> getUser(User user) throws UserNotFoundException {
-       User findUser =  userRepository.findByUsername(user.getUsername())
-                .orElseThrow(() -> new UserNotFoundException(String.format("User %s couldn't be found", user.getUsername())));
-        return ResponseEntity.ok().body(findUser);
-    }
 }

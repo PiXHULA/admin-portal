@@ -8,7 +8,6 @@ const Dashboard = (props) => {
     const [userList, setUserList] = useState([]);
 
     const getUsers = () => {
-
         axios.get(`api/v1/user/users`,
             {
                 headers: {
@@ -24,30 +23,13 @@ const Dashboard = (props) => {
         })
     }
 
-    // const checkUserList = userList.map(user => {
-    //     `${user.id},${user.name}, ${user.password}, ${deletable = user.roles[0].roleName === "SUPERADMIN" ? false : true}`
-    // });
-    // console.log(checkUserList);
-
-    // const checkUserList = () => {
-    //     userList.map(value => {
-    //         if (user.roles[0].roleName === "SUPERADMIN") {
-    //             value = {id = value.id,
-    //                 username = value.username,
-    //                 password = value.password,
-    //                 deletable = false
-    //             }
-    //         }
-    //     })
-    // }
-
 
     useEffect(() => {
         getUsers()
     }, []);
 
 
-    const deleteUser = (user,cb) => {
+    const deleteUser = (user, cb) => {
         axios.delete(`api/v1/user/delete/${user.id}`,
             {
                 headers: {
@@ -71,15 +53,16 @@ const Dashboard = (props) => {
                     <li>
                         {user.username}
                         <button onClick={() => {
-                            localStorage.setItem("user",user.username)
+                            localStorage.setItem("user", user.id)
                             props.history.push("/edit")
                         }}>Edit
                         </button>
-                        <button onClick={()=>{
-                            deleteUser(user,()=>{
+                        <button onClick={() => {
+                            deleteUser(user, () => {
                                 getUsers()
                             })
-                        }}>Delete</button>
+                        }}>Delete
+                        </button>
                     </li>
                 ))}
             </ul>
@@ -91,7 +74,7 @@ const Dashboard = (props) => {
 
         {getUserList()}
         <button onClick={() => {
-                    props.history.push("/create")
+            props.history.push("/create")
         }}>
             Create a new admin
         </button>
@@ -108,6 +91,5 @@ const Dashboard = (props) => {
         </button>
     </div>);
 };
-
 
 export default Dashboard;

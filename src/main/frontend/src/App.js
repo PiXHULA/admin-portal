@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    HashRouter as Router,
     Route,
     Switch,
 } from "react-router-dom";
@@ -18,26 +17,24 @@ import Create from "./components/pages/Create";
 function App() {
 
     return (
-            <Router>
-                <div>
-                    <Header/>
-                    <body>
-                    <div style={mainDiv}>
-                    <Switch>
-                        <Route path="/" exact component={LandingPage}/>
-                        <Route path="/about" component={About}/>
-                        <ProtectedRoute path="/dashboard" component={Dashboard}/>
-                        <ProtectedRoute path="/edit" component={Edit}/>
-                        <ProtectedRoute path="/create" component={Create}/>
-                        <Route path="*" component={ErrorPage}/>
-                    </Switch>
-                    </div>
-                    </body>
-                    <footer>
-                        <Footer/>
-                    </footer>
-                </div>
-            </Router>
+        <div>
+            <Header/>
+            <body>
+            <div style={mainDiv}>
+                <Switch>
+                    <Route path="/" exact component={LandingPage}/>
+                    <Route path="/about" component={About}/>
+                    <ProtectedRoute path="/dashboard" component={Dashboard}/>
+                    <ProtectedRoute path="/edit" component={Edit}/>
+                    <ProtectedRoute path="/create" component={Create}/>
+                    <Route path="*" component={ErrorPage}/>
+                </Switch>
+            </div>
+            </body>
+            <footer>
+                <Footer/>
+            </footer>
+        </div>
     );
 }
 

@@ -1,8 +1,15 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import auth from "../../helpers/Auth";
+import {useHistory} from "react-router-dom";
 
-const Edit = (props) => {
+const Edit = () => {
+
+    let history = useHistory();
+
+    const handleClick = () => {
+        history.push("/dashboard");
+    }
 
     const [user, setUser] = useState({
         id: "",
@@ -11,7 +18,7 @@ const Edit = (props) => {
     });
 
     const getUser = () => {
-        axios.get(`api/v1/user/user/`,
+        axios.get(`api/v1/user/user/${localStorage.getItem("user")}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -28,26 +35,21 @@ const Edit = (props) => {
         getUser()
     }, [])
 
-    const setPassword = (password) => {
-        setUser({id: user.id, name: user.username, password: password})
-    }
-
     return (
         <div>
-            <h2>Edit</h2>
+            <h2>Reset Password for {user.name}</h2>
             <form>
                 <label>
-                    Name:
-                    <input type="text" readOnly={true} placeholder={user.name}/> <br/>
                     Change password:
-                    <input type="password" onChange={e => setPassword(e.target.value)}/>
+                    <input type="password" onChange={e => setUser({...user,password: e.target.value})}/>
                 </label>
-                <button  onClick={() => {
+                <button type="button" onClick={() => {
                     auth.editUser(user, () => {
-                    props.history.push("/dashboard")
-                })}}>
+                            handleClick()
+                    })
+                }}>
                     Save
-                    </button>
+                </button>
             </form>
         </div>
     );

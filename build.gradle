@@ -30,7 +30,6 @@ task copyWebApp(type: Copy) {
 task appNpmInstall(type: NpmTask) {
     description = "Installs all dependencies from package.json"
     workingDir = file("${project.projectDir}/src/main/frontend")
-//    args = ["ci","--no-optional"]
     args = ["install"]
 }
 
@@ -48,7 +47,7 @@ compileTestJava.dependsOn compileJava
 
 node {
     // changed back to true before push
-    download = false
+    download = true
 
     // Set the work directory for unpacking node
     workDir = file("${project.buildDir}/nodejs")

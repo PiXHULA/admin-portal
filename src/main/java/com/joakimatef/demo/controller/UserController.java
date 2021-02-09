@@ -28,7 +28,7 @@ public class UserController {
     @GetMapping("/users")
     @UserReadPermission
     public ResponseEntity<?> getAllUsers() {
-        User authenticatedUser = new User();
+        User authenticatedUser;
         try {
             authenticatedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             return userService.getAllUsers(authenticatedUser);
@@ -37,13 +37,13 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user")
+    @GetMapping("/user/{id}")
     @UserReadPermission
-    public ResponseEntity<?> getUser() {
-        User authenticatedUser = new User();
+    public ResponseEntity<?> getUserToEdit(@PathVariable Long id) {
+        User authenticatedUser;
         try {
             authenticatedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            return userService.getUser(authenticatedUser);
+            return userService.getUserToEdit(authenticatedUser ,id);
         } catch (Exception e) {
             return ResponseEntity.status(404).body("Not Found");
         }
