@@ -13,9 +13,9 @@ import {ErrorPage} from "./components/pages/ErrorPage";
 import Dashboard from "./components/pages/Dashboard";
 import Edit from "./components/pages/Edit";
 import Create from "./components/pages/Create";
+import Delete from "./components/pages/Delete";
 
 function App() {
-
     return (
         <div>
             <Header/>
@@ -27,6 +27,7 @@ function App() {
                     <ProtectedRoute path="/dashboard" component={Dashboard}/>
                     <ProtectedRoute path="/edit" component={Edit}/>
                     <ProtectedRoute path="/create" component={Create}/>
+                    <ProtectedRoute path="/delete" component={Delete}/>
                     <Route path="*" component={ErrorPage}/>
                 </Switch>
             </div>

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-class Auth {
+class Controller {
     constructor() {
         this.authenticated = false;
     }
@@ -24,6 +24,15 @@ class Auth {
         }).catch(error => {
             console.log(error);
         });
+    }
+
+    logout(cb) {
+        this.authenticated = false;
+        cb();
+    }
+
+    isAuthenticated() {
+        return this.authenticated;
     }
 
     editUser({id, username, password}, cb) {
@@ -64,14 +73,51 @@ class Auth {
         })
     }
 
-    logout(cb) {
-        this.authenticated = false;
-        cb();
+    deleteUser (user, cb) {
+        axios.delete(`api/v1/user/delete/${user.id}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+                },
+            }).then(response => {
+            console.log(response.data)
+            cb()
+        }).catch(error => {
+            console.log(error.response.data);
+        })
     }
 
-    isAuthenticated() {
-        return this.authenticated;
+    getUsers (cb) {
+        axios.get(`api/v1/user/users`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+                },
+            }).then(response => {
+            console.log("GET ALL USERS")
+            console.log(response.data)
+            cb(response.data)
+        }).catch(error => {
+            console.log(error.response.data);
+        })
+    }
+
+    getCurrentUser (cb) {
+        axios.get(`api/v1/user/user`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+                },
+            }).then(response => {
+            console.log(response.data)
+            cb(response.data)
+        }).catch(error => {
+            console.log(error)
+        })
     }
 }
 
-export default new Auth();
+export default new Controller();

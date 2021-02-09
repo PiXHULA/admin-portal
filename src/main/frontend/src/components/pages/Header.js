@@ -1,6 +1,6 @@
 import React from "react";
 import {Link, Redirect} from "react-router-dom";
-import auth from "../../helpers/Auth"
+import auth from "../../helpers/Controller"
 
 const Header = () => {
 

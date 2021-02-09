@@ -1,50 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import auth from "../../helpers/Auth";
-import axios from 'axios';
-
+import controller from "../../helpers/Controller";
 
 const Dashboard = (props) => {
 
     const [userList, setUserList] = useState([]);
-
-    const getUsers = () => {
-        axios.get(`api/v1/user/users`,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem("jwt")}`
-                },
-            }).then(response => {
-            console.log("GET ALL USERS")
-            console.log(response)
-            setUserList(response.data)
-        }).catch(error => {
-            console.log(error);
-        })
-    }
-
+    const [currentUser, setCurrentUser] = useState({
+        name: "",
+        password: "",
+        role: ""
+    });
 
     useEffect(() => {
-        getUsers()
-    }, []);
-
-
-    const deleteUser = (user, cb) => {
-        axios.delete(`api/v1/user/delete/${user.id}`,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem("jwt")}`
-                },
-            }).then(response => {
-            console.log("GET USER " + user.username)
-            console.log(response)
-            setUserList(response.data)
-            cb()
-        }).catch(error => {
-            console.log(error);
-        })
-    }
+        controller.getUsers((response) => setUserList(response))
+        controller.getCurrentUser(response => setCurrentUser({
+            name: response.username,
+            password: response.password,
+            role: response.roles[0].roleName
+        }))
+    }, [...userList]);
 
     const getUserList = () => {
         return (
@@ -57,15 +30,31 @@ const Dashboard = (props) => {
                             props.history.push("/edit")
                         }}>Edit
                         </button>
-                        <button onClick={() => {
-                            deleteUser(user, () => {
-                                getUsers()
-                            })
-                        }}>Delete
-                        </button>
                     </li>
                 ))}
             </ul>
+        )
+    }
+
+    const getCreateButton = (currentUser) => {
+        return (
+            currentUser.role === "SUPERADMIN" &&
+            <button onClick={() => {
+                props.history.push("/create")
+            }}>
+                Create a new admin
+            </button>
+        )
+    }
+
+    const getDeleteButton = (currentUser) => {
+        return (
+            currentUser.role === "SUPERADMIN" &&
+            <button onClick={() => {
+                props.history.push("/delete")
+            }}>
+                Delete an admin
+            </button>
         )
     }
 
@@ -73,14 +62,11 @@ const Dashboard = (props) => {
         <h2>Dashboard</h2>
 
         {getUserList()}
-        <button onClick={() => {
-            props.history.push("/create")
-        }}>
-            Create a new admin
-        </button>
+        {getCreateButton(currentUser)}
+        {getDeleteButton(currentUser)}
         <button onClick={() => {
             if (localStorage.length > 0) {
-                auth.logout(() => {
+                controller.logout(() => {
                     console.log("YOU HAVE LOGGED OUT");
                     localStorage.clear();
                     props.history.push("/")

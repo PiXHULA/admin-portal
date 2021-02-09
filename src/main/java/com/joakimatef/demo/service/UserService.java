@@ -48,8 +48,6 @@ public class UserService {
                 .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode(user.getPassword()))
                 .role(adminRole)
                 .build());
-
-//        return ResponseEntity.status(201).body(String.format("%s has been created", newAdmin.getUsername()));
     }
 
     public ResponseEntity<?> deleteAdmin(User authenticatedUser, Long id) throws UserNotFoundException {
@@ -60,7 +58,7 @@ public class UserService {
             userRepository.delete(foundUser);
             return ResponseEntity.ok(String.format("Successfully deleted %s", foundUser.getUsername()));
         }
-        return ResponseEntity.badRequest().body(String.format("You're not allowed to delete %s", foundUser.getUsername()));
+            return ResponseEntity.status(403).body(String.format("You're not allowed to delete %s", foundUser.getUsername()));
     }
 
     public ResponseEntity<?> getUserToEdit(User user, Long id) throws UserNotFoundException {
@@ -90,9 +88,10 @@ public class UserService {
         return ResponseEntity.status(403).body(String.format("You're not allowed to update %s", foundUser.getUsername()));
     }
 
-    public User findUserById(User user) throws UserNotFoundException {
-        return userRepository.findUserById(user.getId())
+    public ResponseEntity<?> findUserById(User user) throws UserNotFoundException {
+        User foundUser = userRepository.findUserById(user.getId())
                 .orElseThrow(() -> new UserNotFoundException(String.format("User %s couldn't be found", user.getUsername())));
+        return ResponseEntity.ok(foundUser);
     }
 
     private boolean isTheSameUser(User authenticatedUser, User foundUser) {

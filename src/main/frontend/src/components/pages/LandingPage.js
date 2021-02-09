@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import auth from "../../helpers/Auth";
+import controller from "../../helpers/Controller";
 
 const LandingPage = (props) => {
     const [user, setUser] = useState("");
@@ -32,8 +32,8 @@ const LandingPage = (props) => {
                     />
                 </Form.Group>
                 <Button block size="lg" disabled={!validateForm()} onClick={() => {
-                    auth.login(user, password, () => {
-                        if (auth.isAuthenticated()) {
+                    controller.login(user, password, () => {
+                        if (controller.isAuthenticated()) {
                             props.history.push("/dashboard")
                         }
                     })

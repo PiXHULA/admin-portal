@@ -49,6 +49,18 @@ public class UserController {
         }
     }
 
+    @GetMapping("/user")
+    @UserReadPermission
+    public ResponseEntity<?> getCurrentUser() {
+        User authenticatedUser;
+        try {
+            authenticatedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            return userService.findUserById(authenticatedUser);
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body("Not Found");
+        }
+    }
+
 
     @PostMapping("/post")
     @UserCreatePermission

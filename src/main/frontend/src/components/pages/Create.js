@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import auth from "../../helpers/Auth";
+import controller from "../../helpers/Controller";
 import {useHistory} from "react-router-dom";
 
 const Create = () => {
@@ -28,13 +28,16 @@ const Create = () => {
                            onChange={event => setUser({...user, password: event.target.value})}/>
                 </label>
                 <button type="button" onClick={() => {
-                    auth.createUser(user, () => {
+                    controller.createUser(user, () => {
                         handleClick()
                     })
                 }}>
                     Save
                 </button>
             </form>
+                <button type="button" onClick={handleClick}>
+                    Go back!
+                </button>
         </div>
     );
 }

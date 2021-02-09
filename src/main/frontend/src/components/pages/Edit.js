@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import auth from "../../helpers/Auth";
+import controller from "../../helpers/Controller";
 import {useHistory} from "react-router-dom";
 
 const Edit = () => {
@@ -28,7 +28,7 @@ const Edit = () => {
             setUser({id: response.data.id, name: response.data.username, password: response.data.password})
             console.log(response.data)
         }).catch(error => {
-            console.log(error);
+            console.log(error.response.data);
         })
     }
     useEffect(() => {
@@ -44,13 +44,16 @@ const Edit = () => {
                     <input type="password" onChange={e => setUser({...user,password: e.target.value})}/>
                 </label>
                 <button type="button" onClick={() => {
-                    auth.editUser(user, () => {
+                    controller.editUser(user, () => {
                             handleClick()
                     })
                 }}>
                     Save
                 </button>
             </form>
+                <button type="button" onClick={handleClick}>
+                    Go back!
+                </button>
         </div>
     );
 }
