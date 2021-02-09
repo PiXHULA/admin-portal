@@ -16,9 +16,9 @@ const Dashboard = (props) => {
                     'Authorization': `Bearer ${localStorage.getItem("jwt")}`
                 },
             }).then(response => {
-            setUserList(response.data)
+            console.log("GET ALL USERS")
             console.log(response)
-            console.log(response.data)
+            setUserList(response.data)
         }).catch(error => {
             console.log(error);
         })
@@ -55,9 +55,9 @@ const Dashboard = (props) => {
                     'Authorization': `Bearer ${localStorage.getItem("jwt")}`
                 },
             }).then(response => {
-            setUserList(response.data)
+            console.log("GET USER " + user.username)
             console.log(response)
-            console.log(response.data)
+            setUserList(response.data)
         }).catch(error => {
             console.log(error);
         })

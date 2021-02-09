@@ -19,7 +19,6 @@ const Edit = (props) => {
                 },
             }).then(response => {
             setUser({id: response.data.id, name: response.data.username, password: response.data.password})
-            console.log(user)
             console.log(response.data)
         }).catch(error => {
             console.log(error);

@@ -15,7 +15,8 @@ class Auth {
                 }
             },
         ).then((response) => {
-            console.log(response.data.jwt)
+             console.log("LOGIN")
+            console.log(response.data)
             const token = response.data.jwt;
             localStorage.setItem("jwt", token)
             this.authenticated = true;
@@ -37,6 +38,7 @@ class Auth {
                 }
             },
         ).then((response) => {
+            console.log("EDIT")
             console.log(response.data)
             cb();
         }).catch(error => {
