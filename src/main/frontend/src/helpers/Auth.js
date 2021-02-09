@@ -5,8 +5,8 @@ class Auth {
         this.authenticated = false;
     }
 
-     login(user,password,cb) {
-         axios.post('authenticate', {
+    login(user, password, cb) {
+        axios.post('authenticate', {
                 username: user,
                 password: password
             }, {
@@ -15,7 +15,7 @@ class Auth {
                 }
             },
         ).then((response) => {
-             console.log("LOGIN")
+            console.log("LOGIN")
             console.log(response.data)
             const token = response.data.jwt;
             localStorage.setItem("jwt", token)
@@ -26,11 +26,11 @@ class Auth {
         });
     }
 
-     editUser({id,username,password}, cb)  {
+    editUser({id, username, password}, cb) {
         axios.patch('api/v1/user/edit', {
-            id:id,
-            username: username,
-            password: password
+                id: id,
+                username: username,
+                password: password
             }, {
                 headers: {
                     "Content-Type": "application/json",
@@ -46,17 +46,31 @@ class Auth {
         });
     }
 
+    createUser(user, cb) {
+        axios.post(`api/v1/user/post`,
+            user,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+                },
+            }).then(response => {
+            // this.authenticated = true;
+            console.log(response.data)
+            cb();
+        }).catch(error => {
+            console.log(error);
+        })
+    }
 
-logout(cb)
-{
-    this.authenticated = false;
-    cb();
-}
+    logout(cb) {
+        this.authenticated = false;
+        cb();
+    }
 
-isAuthenticated()
-{
-    return this.authenticated;
-}
+    isAuthenticated() {
+        return this.authenticated;
+    }
 }
 
 export default new Auth();

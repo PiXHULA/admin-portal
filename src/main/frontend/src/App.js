@@ -13,6 +13,7 @@ import {ProtectedRoute} from "./helpers/ProtectedRoute";
 import {ErrorPage} from "./components/pages/ErrorPage";
 import Dashboard from "./components/pages/Dashboard";
 import Edit from "./components/pages/Edit";
+import Create from "./components/pages/Create";
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
                         <Route path="/about" component={About}/>
                         <ProtectedRoute path="/dashboard" component={Dashboard}/>
                         <ProtectedRoute path="/edit" component={Edit}/>
+                        <ProtectedRoute path="/create" component={Create}/>
                         <Route path="*" component={ErrorPage}/>
                     </Switch>
                     </div>
