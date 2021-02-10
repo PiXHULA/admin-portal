@@ -28,12 +28,12 @@ public class UserController {
     @GetMapping("/users")
     @UserReadPermission
     public ResponseEntity<?> getAllUsers() {
-        User authenticatedUser;
+        User authenticatedUser = new User();
         try {
             authenticatedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             return userService.getAllUsers(authenticatedUser);
         } catch (Exception e) {
-            return ResponseEntity.status(404).body("Not Found");
+            return userService.getAllUsers(authenticatedUser);
         }
     }
 

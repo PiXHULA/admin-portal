@@ -30,14 +30,15 @@ public class UserService {
         List<User> allUsers;
         if (user.getAuthorities().toString().contains("user.read")) {
             allUsers = userRepository.findAll();
-        } else {
+        return ResponseEntity.ok(allUsers);
+        } else if (user.getAuthorities().toString().contains("user.admin.read")) {
             allUsers = userRepository.findAll()
                     .stream()
                     .filter(e -> e.getAuthorities().toString().contains("user.admin.read"))
                     .collect(Collectors.toList());
-        }
-
         return ResponseEntity.ok(allUsers);
+        } else
+        return ResponseEntity.status(404).body("Not Found");
     }
 
     public User createAdmin(User user) {

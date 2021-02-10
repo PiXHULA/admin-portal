@@ -18,11 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
@@ -40,18 +40,13 @@ public class UserControllerTest {
     @Autowired
     WebApplicationContext wac;
 
-    MockMvc mockMvc;
-
     @MockBean
     UserService userService;
 
     @MockBean
     UserRepository userRepository;
 
-    @MockBean
-    JpaUserDetailService jpaUserDetailService;
-
-    JwtUtil jwtTokenUtil;
+    MockMvc mockMvc;
 
     User adminUser;
     User suAdminUser;
@@ -61,7 +56,7 @@ public class UserControllerTest {
     String jsonContent;
     @BeforeEach
     void setUp() throws JsonProcessingException {
-        jwtTokenUtil = new JwtUtil();
+
 
         adminRole = Role.builder()
                 .authority(Authority.builder().permission("user.admin.read").build())
@@ -126,7 +121,7 @@ public class UserControllerTest {
 
     @Test
     @DisplayName("It will list all users with the read authority")
-    @WithMockUser(authorities = {"user.read"})
+    @WithMockUser(authorities = {"user.read","user.admin.read"})
     void getAllUsersFromService() throws Exception {
         mockMvc.perform(get(API_URI + "users"))
                 .andExpect(status().isOk());
@@ -137,7 +132,7 @@ public class UserControllerTest {
     @WithMockUser(authorities = {"user.delete"})
     void deletedAdminWithDeleteAuth() throws Exception {
 
-        mockMvc.perform(delete(API_URI + "delete")
+        mockMvc.perform(delete(API_URI + "delete/" + adminUser.getId())
                 .content(jsonContent)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -148,7 +143,7 @@ public class UserControllerTest {
     @DisplayName("It will not delete admin without the correct authority")
     @WithMockUser(authorities = {"user.read"})
     void deletedAdminWithReadAuth() throws Exception {
-        mockMvc.perform(delete(API_URI + "delete")
+        mockMvc.perform(delete(API_URI + "delete/" + adminUser.getId())
                 .content(jsonContent)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
