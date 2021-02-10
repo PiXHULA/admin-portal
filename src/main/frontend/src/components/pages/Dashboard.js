@@ -17,7 +17,7 @@ const Dashboard = (props) => {
             password: response.password,
             role: response.roles[0].roleName
         }))
-    }, [...userList]);
+    }, []);
 
     const getUserList = () => {
         return (

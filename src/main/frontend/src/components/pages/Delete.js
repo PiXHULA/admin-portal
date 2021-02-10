@@ -14,7 +14,7 @@ const Delete = () => {
 
     useEffect(() => {
         controller.getUsers((response) => {setUserList(response)})
-    }, [...userList]);
+    }, []);
 
     const getUserList = () => {
         return (
