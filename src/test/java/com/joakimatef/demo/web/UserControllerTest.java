@@ -2,15 +2,12 @@ package com.joakimatef.demo.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.joakimatef.demo.bootstrap.exceptions.UserNotFoundException;
 import com.joakimatef.demo.domain.security.Authority;
 import com.joakimatef.demo.domain.security.Role;
 import com.joakimatef.demo.domain.security.User;
 import com.joakimatef.demo.repository.security.UserRepository;
 import com.joakimatef.demo.service.UserService;
-import com.joakimatef.demo.service.security.JpaUserDetailService;
 import com.joakimatef.demo.service.security.PasswordEncoderFactory;
-import com.joakimatef.demo.util.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
