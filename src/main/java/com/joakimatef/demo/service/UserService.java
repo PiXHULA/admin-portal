@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,10 +33,12 @@ public class UserService {
             allUsers = userRepository.findAll();
         return ResponseEntity.ok(allUsers);
         } else if (user.getAuthorities().toString().contains("user.admin.read")) {
-            allUsers = userRepository.findAll()
-                    .stream()
-                    .filter(e -> e.getAuthorities().toString().contains("user.admin.read"))
-                    .collect(Collectors.toList());
+//            allUsers = userRepository.findAll()
+//                    .stream()
+//                    .filter(e -> e.getAuthorities().toString().contains("user.admin.read"))
+//                    .collect(Collectors.toList());
+            allUsers = new ArrayList<>();
+            allUsers.add(user);
         return ResponseEntity.ok(allUsers);
         } else
         return ResponseEntity.status(404).body("Not Found");
@@ -101,8 +104,7 @@ public class UserService {
 
     private boolean isNotTheSameUserButHasAuthority(User authenticatedUser, User foundUser) {
         return !authenticatedUser.getId().equals(foundUser.getId()) &&
-                authenticatedUser.getAuthorities().toString().contains("user.update") &&
-                foundUser.getAuthorities().toString().contains("user.admin.update");
+                authenticatedUser.getAuthorities().toString().contains("user.update");
     }
 
 }

@@ -5,7 +5,6 @@ import {
 } from "react-router-dom";
 import './css/App.css';
 import LandingPage from "./components/pages/LandingPage";
-import Header from "./components/pages/Header";
 import Footer from "./components/pages/Footer";
 import About from "./components/pages/About";
 import {ProtectedRoute} from "./helpers/ProtectedRoute";
@@ -14,6 +13,8 @@ import Dashboard from "./components/pages/Dashboard";
 import Edit from "./components/pages/Edit";
 import Create from "./components/pages/Create";
 import Delete from "./components/pages/Delete";
+import Header from "./components/pages/Header";
+import ShowEdit from "./components/pages/ShowEdit";
 
 function App() {
     return (
@@ -25,6 +26,7 @@ function App() {
                     <Route path="/" exact component={LandingPage}/>
                     <Route path="/about" component={About}/>
                     <ProtectedRoute path="/dashboard" component={Dashboard}/>
+                    <ProtectedRoute path="/ShowEdit" component={ShowEdit}/>
                     <ProtectedRoute path="/edit" component={Edit}/>
                     <ProtectedRoute path="/create" component={Create}/>
                     <ProtectedRoute path="/delete" component={Delete}/>
