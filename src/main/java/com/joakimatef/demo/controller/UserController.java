@@ -69,6 +69,8 @@ public class UserController {
         try {
             newAdmin = userService.createAdmin(user);
             return ResponseEntity.status(201).body(String.format("%s has been created", newAdmin.getUsername()));
+        } catch (RuntimeException e){
+            return ResponseEntity.status(400).body("User already exists!");
         } catch (Exception e) {
             return ResponseEntity.status(403).body("You're not allowed to create another user");
         }
