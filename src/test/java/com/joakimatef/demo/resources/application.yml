@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    active: test
+  jpa:
+    open-in-view: true
+    show-sql: false
+    hibernate:
+      ddl-auto: create-drop
+    generate-ddl: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    database: h2
+  datasource:
+    url: jdbc:h2:mem:AZ
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
