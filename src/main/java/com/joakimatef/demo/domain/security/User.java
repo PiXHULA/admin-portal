@@ -3,6 +3,7 @@ package com.joakimatef.demo.domain.security;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+//import com.joakimatef.demo.domain.BaseEntity;
 import lombok.*;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,32 +20,40 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(name = "users")
 public class User implements UserDetails, CredentialsContainer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column
     private String username;
+
+    @Column
     private String password;
 
+    @Column
     @Builder.Default
     private Boolean accountNonExpired = true;
 
+    @Column
     @Builder.Default
     private Boolean accountNonLocked = true;
 
+    @Column
     @Builder.Default
     private Boolean credentialsNonExpired = true;
 
+    @Column
     @Builder.Default
     private Boolean enabled = true;
 
     @Singular
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
-    joinColumns = {@JoinColumn(name = "USER_ID",referencedColumnName = "ID")},
-            inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")})
+    joinColumns = @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_user_role")),
+            inverseJoinColumns = @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "fk_role_user")))
     private Set<Role> roles;
 
     @Transient

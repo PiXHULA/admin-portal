@@ -10,6 +10,7 @@ import com.joakimatef.demo.service.security.PasswordEncoderFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -18,7 +19,8 @@ import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
-@Component
+//@Component
+@Configuration
 public class DefaultLoader implements CommandLineRunner {
 
     private final UserRepository userRepository;
@@ -27,7 +29,8 @@ public class DefaultLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        loadSecurityData();
+        if(roleRepository.findAll().size() < 1)
+            loadSecurityData();
     }
 
 //    @Value("${PASS}")
