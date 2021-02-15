@@ -28,11 +28,13 @@ import java.util.Optional;
 public class UserService {
 
     /*
-     * Repositories used for CRUD operations for users
-     * UserRepository loads credentials
-     * RoleRepository loads correct roles for the user
+     * UserRepository used for CRUD operations for users
      */
    private final UserRepository userRepository;
+
+    /*
+     * RoleRepository used for CRUD operations for users
+     */
    private final RoleRepository roleRepository;
 
     @Autowired

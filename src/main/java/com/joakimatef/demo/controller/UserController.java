@@ -12,11 +12,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+
+/**
+ * Controller that will handle all of the applications rest APIs
+ *
+ * @author Atef Sendesni
+ * @since 12.01.2021
+ */
+
 @RestController
 @RequestMapping("api/v1/user")
 public class UserController {
 
+    /*
+     * UserService used for CRUD operations for users
+     */
     UserService userService;
+    /*
+     * User loads credentials from login
+     */
     User authenticatedUser;
 
     @Autowired
@@ -24,6 +38,11 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * Handle the request to get all the users
+     *
+     * @return List of users that are persisted on the database else error response from the service.
+     */
 
     @GetMapping("/users")
     @UserReadPermission
@@ -37,6 +56,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Handle the request to get one user to edit
+     *
+     * @param id id
+     * @return User that are persisted on the database else error response.
+     */
     @GetMapping("/user/{id}")
     @UserReadPermission
     public ResponseEntity<?> getUserToEdit(@PathVariable Long id) {
@@ -49,6 +74,11 @@ public class UserController {
         }
     }
 
+    /**
+     * Handle the request to get the current user
+     *
+     * @return User that are persisted on the database else error response.
+     */
     @GetMapping("/user")
     @UserReadPermission
     public ResponseEntity<?> getCurrentUser() {
@@ -61,6 +91,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Handle the request to create and persist new user to database
+     *
+     * @param user New user.
+     * @return User that was persisted to the database if successfully else return error response.
+     */
 
     @PostMapping("/post")
     @UserCreatePermission
@@ -76,6 +112,13 @@ public class UserController {
         }
     }
 
+    /**
+     * Handle the request for deleting a user.
+     *
+     * @param id id.
+     * @return Response from service if the user is deleted successfully or if failed.
+     */
+
     @DeleteMapping("/delete/{id}")
     @UserDeletePermission
     public ResponseEntity<?> deletedAdmin(@PathVariable Long id) throws UserNotFoundException {
@@ -87,6 +130,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Handle the request for edit and persist edit user to database
+     *
+     * @param user user.
+     * @return Edit user if successfully else return error response from service.
+     */
     @PatchMapping("/edit")
     @UserUpdatePermission
     public ResponseEntity<?> updateAdmin(@RequestBody User user) throws UserNotFoundException {
