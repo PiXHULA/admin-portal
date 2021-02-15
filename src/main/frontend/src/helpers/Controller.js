@@ -3,6 +3,7 @@ import axios from "axios";
 class Controller {
     constructor() {
         this.authenticated = false;
+        this.loading = true;
     }
 
     login(user, password, cb) {
@@ -20,6 +21,7 @@ class Controller {
             const token = response.data.jwt;
             localStorage.setItem("jwt", token)
             this.authenticated = true;
+            this.loading = false;
             cb();
         }).catch(error => {
             console.log(error);
@@ -33,6 +35,10 @@ class Controller {
 
     isAuthenticated() {
         return this.authenticated;
+    }
+
+    isLoading() {
+        return this.loading;
     }
 
     editUser({id, username, password}, cb) {

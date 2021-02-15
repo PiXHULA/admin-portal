@@ -1,12 +1,12 @@
 package com.joakimatef.demo.service;
 
+import com.joakimatef.demo.bootstrap.exceptions.UserAlreadyExistsException;
 import com.joakimatef.demo.bootstrap.exceptions.UserNotFoundException;
 import com.joakimatef.demo.domain.security.Authority;
 import com.joakimatef.demo.domain.security.Role;
 import com.joakimatef.demo.domain.security.User;
-import com.joakimatef.demo.repository.security.RoleRepository;
-import com.joakimatef.demo.repository.security.UserRepository;
-import com.joakimatef.demo.service.security.JpaUserDetailService;
+import com.joakimatef.demo.repository.RoleRepository;
+import com.joakimatef.demo.repository.UserRepository;
 import com.joakimatef.demo.service.security.PasswordEncoderFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -92,7 +92,7 @@ class UserServiceTest {
     }
 
     @Test
-    void createAdmin() {
+    void createAdmin() throws UserAlreadyExistsException {
         //given
         given(roleRepository.findByRoleName(anyString())).willReturn(Optional.of(adminRole));
         given(userRepository.save(any(User.class))).willReturn(adminUser);

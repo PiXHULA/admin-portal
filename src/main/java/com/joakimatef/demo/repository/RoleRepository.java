@@ -1,4 +1,4 @@
-package com.joakimatef.demo.repository.security;
+package com.joakimatef.demo.repository;
 
 import com.joakimatef.demo.domain.security.Role;
 import org.springframework.data.jpa.repository.JpaRepository;

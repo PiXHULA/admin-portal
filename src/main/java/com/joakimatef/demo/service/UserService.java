@@ -1,10 +1,11 @@
 package com.joakimatef.demo.service;
 
+import com.joakimatef.demo.bootstrap.exceptions.UserAlreadyExistsException;
 import com.joakimatef.demo.bootstrap.exceptions.UserNotFoundException;
 import com.joakimatef.demo.domain.security.Role;
 import com.joakimatef.demo.domain.security.User;
-import com.joakimatef.demo.repository.security.RoleRepository;
-import com.joakimatef.demo.repository.security.UserRepository;
+import com.joakimatef.demo.repository.RoleRepository;
+import com.joakimatef.demo.repository.UserRepository;
 import com.joakimatef.demo.service.security.PasswordEncoderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,13 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    UserRepository userRepository;
-    RoleRepository roleRepository;
+    /*
+     * Repositories used for CRUD operations for users
+     * UserRepository loads credentials
+     * RoleRepository loads correct roles for the user
+     */
+   private final UserRepository userRepository;
+   private final RoleRepository roleRepository;
 
     @Autowired
     public UserService(UserRepository userRepository, RoleRepository roleRepository) {
@@ -36,7 +42,7 @@ public class UserService {
     }
 
     /**
-     * Calls the {@link com.joakimatef.demo.repository.security.UserRepository} to get all the admins that are persisted if the user is an SUPERADMIN.
+     * Calls the {@link UserRepository} to get all the admins that are persisted if the user is an SUPERADMIN.
      * Else the user will only ses it self
      *
      * @param user user
@@ -61,19 +67,19 @@ public class UserService {
     }
 
     /**
-     * Calls the {@link com.joakimatef.demo.repository.security.RoleRepository} to fetch the ADMIN role.
-     * Calls the {@link com.joakimatef.demo.repository.security.UserRepository} to check if userName is already taken.
-     * Calls the {@link com.joakimatef.demo.repository.security.UserRepository} to create and save Admin with ADMIN role.
+     * Calls the {@link RoleRepository} to fetch the ADMIN role.
+     * Calls the {@link UserRepository} to check if userName is already taken.
+     * Calls the {@link UserRepository} to create and save Admin with ADMIN role.
      *
      * @param user New user
      * @return The user that is added to the database.
      */
 
-    public User createAdmin(User user) {
+    public User createAdmin(User user) throws UserAlreadyExistsException {
         Role adminRole = roleRepository.findByRoleName("ADMIN").orElseThrow(() -> new RuntimeException("Role not found"));
         Optional<User> alreadyExistingUser = userRepository.findByUsername(user.getUsername());
         if(alreadyExistingUser.isPresent())
-            throw new RuntimeException(String.format("User with %s already exists", alreadyExistingUser.get().getUsername()));
+            throw new UserAlreadyExistsException(String.format("User with %s already exists", alreadyExistingUser.get().getUsername()));
 
         return userRepository.save(User.builder()
                 .username(user.getUsername())
@@ -83,10 +89,10 @@ public class UserService {
     }
 
     /**
-     * Calls the {@link com.joakimatef.demo.repository.security.UserRepository} and delete the admin.
+     * Calls the {@link UserRepository} and delete the admin.
      *
-     * @param authenticatedUser user The user who is logged in.
-     * @param id long The id of the user to delete.
+     * @param authenticatedUser The user who is logged in.
+     * @param id The id of the user to delete.
      * @return An OK response with a message.
      * @throws com.joakimatef.demo.bootstrap.exceptions.UserNotFoundException if the user doesn't exist.
      */
@@ -102,7 +108,14 @@ public class UserService {
             return ResponseEntity.status(403).body(String.format("You're not allowed to delete %s", foundUser.getUsername()));
     }
 
-
+    /**
+     * Calls the {@link UserRepository} and delete the admin.
+     *
+     * @param user user The user who is logged in.
+     * @param id long The id of the user to edit.
+     * @return An OK response with a message or 403 if user is not allowed to do the operation.
+     * @throws com.joakimatef.demo.bootstrap.exceptions.UserNotFoundException if the user doesn't exist.
+     */
 
     public ResponseEntity<?> getUserToEdit(User user, Long id) throws UserNotFoundException {
         User foundUser = userRepository.findUserById(id)
@@ -113,7 +126,7 @@ public class UserService {
         return ResponseEntity.status(403).body(String.format("You're not allowed to edit %s", foundUser.getUsername()));
     }
 
-
+    //ANVÄNDER VI DEN HÄR?
 
     public ResponseEntity<?> updateAdmin(User authenticatedUser, User userToEdit) throws UserNotFoundException {
         User foundUser = userRepository.findUserById(userToEdit.getId())
@@ -133,16 +146,34 @@ public class UserService {
         return ResponseEntity.status(403).body(String.format("You're not allowed to update %s", foundUser.getUsername()));
     }
 
+    /**
+     * Calls the {@link UserRepository} and delete the admin.
+     *
+     * @param user user The user who is logged in.
+     * @return An OK response with the user
+     * @throws com.joakimatef.demo.bootstrap.exceptions.UserNotFoundException if the user doesn't exist.
+     */
+
     public ResponseEntity<?> findUserById(User user) throws UserNotFoundException {
         User foundUser = userRepository.findUserById(user.getId())
                 .orElseThrow(() -> new UserNotFoundException(String.format("User %s couldn't be found", user.getUsername())));
         return ResponseEntity.ok(foundUser);
     }
 
+    /**
+     * @param authenticatedUser Logged in user
+     * @param foundUser user receiving the operation
+     * @return true or false depending on if it's the same user
+     **/
+
     private boolean isTheSameUser(User authenticatedUser, User foundUser) {
         return authenticatedUser.getId().equals(foundUser.getId());
     }
-
+    /**
+     * @param authenticatedUser Logged in user
+     * @param foundUser user receiving the operation
+     * @return true or false depending on is the authenticatedUser has the authority to do the operation
+     **/
     private boolean isNotTheSameUserButHasAuthority(User authenticatedUser, User foundUser) {
         return !authenticatedUser.getId().equals(foundUser.getId()) &&
                 authenticatedUser.getAuthorities().toString().contains("user.update");

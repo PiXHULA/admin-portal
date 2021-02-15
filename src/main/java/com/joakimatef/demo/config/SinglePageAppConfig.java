@@ -15,6 +15,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Class used for configuring the URL
+ * Credits to: https://github.com/geowarin/boot-react/blob/master/backend/src/main/java/react/config/SinglePageAppConfig.java
+ */
 @Configuration
 public class SinglePageAppConfig implements WebMvcConfigurer {
 

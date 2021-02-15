@@ -25,8 +25,12 @@ const Dashboard = () => {
 
     return (<div>
         <h2>Dashboard</h2>
-        <Nav/>
-        {getUserList()}
+        {controller.isLoading === false ?
+        <h2>Loading...</h2> :
+        <Nav/>}
+        {controller.isLoading === true ?
+        <h2>Loading...</h2> :
+        getUserList()}
     </div>);
 };
 

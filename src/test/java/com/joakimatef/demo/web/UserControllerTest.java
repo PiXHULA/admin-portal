@@ -2,10 +2,11 @@ package com.joakimatef.demo.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.joakimatef.demo.bootstrap.exceptions.UserAlreadyExistsException;
 import com.joakimatef.demo.domain.security.Authority;
 import com.joakimatef.demo.domain.security.Role;
 import com.joakimatef.demo.domain.security.User;
-import com.joakimatef.demo.repository.security.UserRepository;
+import com.joakimatef.demo.repository.UserRepository;
 import com.joakimatef.demo.service.UserService;
 import com.joakimatef.demo.service.security.PasswordEncoderFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,7 +61,7 @@ public class UserControllerTest {
     final ObjectMapper mapper = new ObjectMapper();
     String jsonContent;
     @BeforeEach
-    void setUp() throws JsonProcessingException {
+    void setUp() throws JsonProcessingException, UserAlreadyExistsException {
 
 
         adminRole = Role.builder()

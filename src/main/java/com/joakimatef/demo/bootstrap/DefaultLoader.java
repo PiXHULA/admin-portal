@@ -3,23 +3,23 @@ package com.joakimatef.demo.bootstrap;
 import com.joakimatef.demo.domain.security.Authority;
 import com.joakimatef.demo.domain.security.Role;
 import com.joakimatef.demo.domain.security.User;
-import com.joakimatef.demo.repository.security.AuthorityRepository;
-import com.joakimatef.demo.repository.security.RoleRepository;
-import com.joakimatef.demo.repository.security.UserRepository;
+import com.joakimatef.demo.repository.AuthorityRepository;
+import com.joakimatef.demo.repository.RoleRepository;
+import com.joakimatef.demo.repository.UserRepository;
 import com.joakimatef.demo.service.security.PasswordEncoderFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+
+
 @Slf4j
 @RequiredArgsConstructor
-//@Component
 @Configuration
 public class DefaultLoader implements CommandLineRunner {
 
@@ -32,11 +32,6 @@ public class DefaultLoader implements CommandLineRunner {
         if(roleRepository.findAll().size() < 1)
             loadSecurityData();
     }
-
-//    @Value("${PASS}")
-//    private String admin;
-//    @Value("${PASS2}")
-//    private String superAdmin;
 
     private void loadSecurityData() {
 

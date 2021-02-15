@@ -3,8 +3,6 @@ package com.joakimatef.demo.controller;
 import com.joakimatef.demo.models.AuthenticationRequest;
 import com.joakimatef.demo.models.AuthenticationResponse;
 import com.joakimatef.demo.service.security.JpaUserDetailService;
-import com.joakimatef.demo.service.security.permission.UserCreatePermission;
-import com.joakimatef.demo.service.security.permission.UserReadPermission;
 import com.joakimatef.demo.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,35 +10,23 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HelloResource {
+public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final JpaUserDetailService jpaUserDetailService;
     private final JwtUtil jwtTokenUtil;
 
     @Autowired
-    public HelloResource(AuthenticationManager authenticationManager, JpaUserDetailService jpaUserDetailService, JwtUtil jwtTokenUtil) {
+    public AuthenticationController(AuthenticationManager authenticationManager, JpaUserDetailService jpaUserDetailService, JwtUtil jwtTokenUtil) {
         this.authenticationManager = authenticationManager;
         this.jpaUserDetailService = jpaUserDetailService;
         this.jwtTokenUtil = jwtTokenUtil;
-    }
-
-    @UserCreatePermission
-    @GetMapping({"/hello"})
-    public String hello() {
-        return "Hello Joakim World";
-    }
-
-    @UserReadPermission
-    @GetMapping({"/wow"})
-    public String wow() {
-        return "Hello Atef World";
     }
 
     @PostMapping({"/authenticate"})

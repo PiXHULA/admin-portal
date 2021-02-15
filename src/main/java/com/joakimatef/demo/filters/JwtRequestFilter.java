@@ -18,12 +18,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Implementation of OncePerRequestFilter used in order to
+ * use an additional filter in Spring security
+ * @author  Joakim Önnhage
+ * @version 1.0
+ * @since   2021-02-15
+ */
+
 @Slf4j
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-
+    /*
+     * jpaUserDetailService used for CRUD operations for users
+     * */
     private final JpaUserDetailService jpaUserDetailService;
+    /*
+     * JwtUtil used for creating and/or reading jwt token
+     * */
     private final JwtUtil jwtUtil;
 
     @Autowired
@@ -31,7 +44,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         this.jpaUserDetailService = jpaUserDetailService;
         this.jwtUtil = jwtUtil;
     }
-
+    /**
+     * Custom filter to use together with JWT and Spring security
+     * @param request coming from client
+     * @param response send back to the client
+     * @param chain filter used in Spring security
+     *
+     **/
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
