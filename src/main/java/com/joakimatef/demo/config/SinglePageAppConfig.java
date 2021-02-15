@@ -16,8 +16,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Class used for configuring the URL
+ * Class used for configuring the URL. Avoiding whitelabel
  * Credits to: https://github.com/geowarin/boot-react/blob/master/backend/src/main/java/react/config/SinglePageAppConfig.java
+ * @author Joakim Önnhage briceno
+ * @since 12.01.2021
  */
 @Configuration
 public class SinglePageAppConfig implements WebMvcConfigurer {

@@ -15,12 +15,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * AuthenticationController used for posting an authentication request and retrieving a json web token
+ * @author Joakim Önnhage briceno
+ * @since 12.01.2021
+ */
 @RestController
 public class AuthenticationController {
 
+    /**
+     * Used for authenticate method and checks is the user isAuthenticated before creating a jwt
+     */
     private final AuthenticationManager authenticationManager;
+    /**
+     * Service handling crud operations for Users
+     */
     private final JpaUserDetailService jpaUserDetailService;
+    /**
+     * JwtUtil used to generate and claim JWT
+     */
     private final JwtUtil jwtTokenUtil;
+
 
     @Autowired
     public AuthenticationController(AuthenticationManager authenticationManager, JpaUserDetailService jpaUserDetailService, JwtUtil jwtTokenUtil) {
@@ -29,6 +44,11 @@ public class AuthenticationController {
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
+    /**
+     * Endpoint for login
+     * @param authenticationRequest Structure for login in with a json object
+     * @return ResponseEntity with a new AuthenticationResponse Structure for jwt
+     */
     @PostMapping({"/authenticate"})
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) {
 

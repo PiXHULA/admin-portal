@@ -6,12 +6,12 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/*
- *
- *  https://www.baeldung.com/hikaricp
- *
+/**
+ *  Class used to configure the connection to the database
+ * @author  Joakim Önnhage
+ * @version 1.0
+ * @since   2021-02-15
  */
-
 @Configuration
 public class DataSourceConfig {
 
