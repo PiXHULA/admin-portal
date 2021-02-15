@@ -17,7 +17,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-
+/**
+ * Class implementing CommandLineRunner in order to load the database with data.
+ *
+ * @author Joakim Önnhage briceno
+ * @since  2021-02-15
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
