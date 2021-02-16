@@ -1,17 +1,18 @@
 import React, {useEffect, useState} from "react";
 import controller from "../../helpers/Controller";
 import {useHistory} from "react-router-dom";
+import Nav from "./Nav";
 
 const ShowEdit = () => {
 
     let history = useHistory();
 
     const handleClick = () => {
-        history.push("/dashboard");
+        controller.setLoadingTrue(() =>history.push("/dashboard"))
     }
 
     const editClick = () => {
-        history.push("/edit");
+        controller.setLoadingTrue(() =>history.push("/edit"))
     }
 
     const [userList, setUserList] = useState([]);
@@ -40,10 +41,14 @@ const ShowEdit = () => {
     return (
         <div>
         <h2>Edit user</h2>
-        {getUserList()}
+        {controller.isLoading() ?
+            <h2>Loading...</h2> :
+            getUserList()}
+        {controller.isLoading() ?
+            <h2>Loading...</h2> :
             <button type="button" onClick={handleClick}>
                 Go back!
-            </button>
+            </button>}
         </div>
     );
 }

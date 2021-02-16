@@ -21,7 +21,6 @@ class Controller {
             const token = response.data.jwt;
             localStorage.setItem("jwt", token)
             this.authenticated = true;
-            this.loading = false;
             cb();
         }).catch(error => {
             console.log(error);
@@ -30,6 +29,7 @@ class Controller {
 
     logout(cb) {
         this.authenticated = false;
+        this.loading = true;
         cb();
     }
 
@@ -39,6 +39,11 @@ class Controller {
 
     isLoading() {
         return this.loading;
+    }
+
+    setLoadingTrue(cb) {
+        this.loading = true;
+        cb();
     }
 
     editUser({id, username, password}, cb) {
@@ -71,7 +76,7 @@ class Controller {
                     'Authorization': `Bearer ${localStorage.getItem("jwt")}`
                 },
             }).then(response => {
-            // this.authenticated = true;
+
             console.log(response.data)
             cb();
         }).catch(error => {
@@ -104,6 +109,7 @@ class Controller {
             }).then(response => {
             console.log("GET ALL USERS")
             console.log(response.data)
+            this.loading = false;
             cb(response.data)
         }).catch(error => {
             console.log(error.response.data);

@@ -7,7 +7,7 @@ const Create = () => {
     let history = useHistory();
 
     const handleClick = () => {
-        history.push("/dashboard");
+        controller.setLoadingTrue(() =>history.push("/dashboard"))
     }
 
     const [user, setUser] = useState({
@@ -20,11 +20,11 @@ const Create = () => {
             <h2>Create</h2>
             <form>
                 <label>
-                    Name:
+                    Name
                     <input type="text" placeholder="name"
                            onChange={event => setUser({...user, username: event.target.value})}/> <br/>
-                    Password:
-                    <input type="text" placeholder="name"
+                    Password
+                    <input type="text" placeholder="password"
                            onChange={event => setUser({...user, password: event.target.value})}/>
                 </label>
                 <button type="button" onClick={() => {

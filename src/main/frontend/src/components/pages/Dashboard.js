@@ -22,13 +22,12 @@ const Dashboard = () => {
             </ul>
         )
     }
-
     return (<div>
         <h2>Dashboard</h2>
-        {controller.isLoading === false ?
+        {controller.isLoading() ?
         <h2>Loading...</h2> :
         <Nav/>}
-        {controller.isLoading === true ?
+        {controller.isLoading() ?
         <h2>Loading...</h2> :
         getUserList()}
     </div>);

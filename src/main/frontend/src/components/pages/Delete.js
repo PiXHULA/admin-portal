@@ -7,7 +7,7 @@ const Delete = () => {
     let history = useHistory();
 
     const handleClick = () => {
-        history.push("/dashboard");
+        controller.setLoadingTrue(() =>history.push("/dashboard"))
     }
 
     const [userList, setUserList] = useState([]);
@@ -38,10 +38,14 @@ const Delete = () => {
     return (
         <div>
         <h2>Delete user</h2>
-        {getUserList()}
+        {controller.isLoading() ?
+            <h2>Loading...</h2> :
+        getUserList()}
+        {controller.isLoading() ?
+            <h2>Loading...</h2> :
             <button type="button" onClick={handleClick}>
                 Go back!
-            </button>
+            </button>}
         </div>
     );
 }

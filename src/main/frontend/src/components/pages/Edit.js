@@ -8,7 +8,7 @@ const Edit = () => {
     let history = useHistory();
 
     const handleClick = () => {
-        history.push("/dashboard");
+        controller.setLoadingTrue(() =>history.push("/dashboard"))
     }
 
     const [user, setUser] = useState({

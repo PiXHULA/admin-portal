@@ -7,25 +7,34 @@ const Nav = () => {
     let history = useHistory();
 
     const landingClick = () => {
-        history.push("/");
+        controller.setLoadingTrue(() => history.push("/"));
     }
 
     const deleteClick = () => {
-        history.push("/delete");
+        controller.setLoadingTrue(() => history.push("/delete"));
     }
 
     const createClick = () => {
-        history.push("/create");
+        controller.setLoadingTrue(() => history.push("/create"));
     }
 
     const showEditClick = () => {
-        history.push("/ShowEdit");
+        controller.setLoadingTrue(() => history.push("/ShowEdit"));
     }
 
     const editClick = () => {
-            localStorage.setItem("user", currentUser.id)
-        history.push("/edit");
+        localStorage.setItem("user", currentUser.id)
+        controller.setLoadingTrue(() => history.push("/edit"));
     }
+
+    const logoutClick = () => {
+        controller.logout(() => {
+            console.log("YOU HAVE LOGGED OUT");
+            localStorage.clear();
+            landingClick()
+        })
+    }
+
 
     const [currentUser, setCurrentUser] = useState({
         name: "",
@@ -77,6 +86,15 @@ const Nav = () => {
         )
     }
 
+    const getLogoutButton = (currentUser) => {
+        return (
+            currentUser.role !== "" &&
+            <button onClick={logoutClick}>
+                Logout
+            </button>
+        )
+    }
+
     return (
         <div style={headerStyle}>
             <ul style={ulStyle}>
@@ -84,19 +102,7 @@ const Nav = () => {
                 <li style={liStyle}>{getEditAllButton(currentUser)}</li>
                 <li style={liStyle}>{getEditButton(currentUser)}</li>
                 <li style={liStyle}>{getDeleteButton(currentUser)}</li>
-                <li style={liStyle}>
-                    <button onClick={() => {
-                        if (localStorage.length > 0) {
-                            controller.logout(() => {
-                                console.log("YOU HAVE LOGGED OUT");
-                                localStorage.clear();
-                                landingClick()
-                            })
-                        }
-                    }}>
-                        Logout
-                    </button>
-                </li>
+                <li style={liStyle}>{getLogoutButton(currentUser)}</li>
             </ul>
         </div>
     )
