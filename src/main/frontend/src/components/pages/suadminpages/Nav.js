@@ -7,21 +7,18 @@ const Nav = () => {
     let history = useHistory();
 
     const deleteClick = () => {
-        controller.setLoadingTrue(() => history.push("/superadmin/delete"));
+        // controller.setLoadingTrue(() => history.push("/superadmin/delete"));
+        history.push("/delete");
     }
 
     const createClick = () => {
         // controller.setLoadingTrue(() => history.push("/superadmin/create"));
-        history.push("/superadmin/create");
+        history.push("/create");
     }
 
     const showEditClick = () => {
-        controller.setLoadingTrue(() => history.push("/superadmin/editlist"));
-    }
-
-    const editClick = () => {
-        localStorage.setItem("user", currentUser.id)
-        controller.setLoadingTrue(() => history.push("/superadmin/edit"));
+        // controller.setLoadingTrue(() => history.push("/superadmin/editlist"));
+        history.push("/editall");
     }
 
     const [currentUser, setCurrentUser] = useState({

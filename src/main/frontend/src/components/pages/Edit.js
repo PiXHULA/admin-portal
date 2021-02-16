@@ -47,9 +47,7 @@ const Edit = () => {
                                 Save
                             </button>
                         </form>
-
-
-                        <button type="button" onClick={handleClick}>
+                    <button type="button" onClick={handleClick}>
                             Go back!
                         </button>
               </span>
@@ -76,7 +74,6 @@ const spanDashboardPanel = {
     'justify-content': 'center',
     'min-height': '1vh',
     'min-width': '80vh',
-    'background-color': 'blue',
 }
 
 export default Edit;

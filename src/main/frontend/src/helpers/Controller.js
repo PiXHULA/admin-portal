@@ -146,6 +146,7 @@ class Controller {
                 },
             }).then(response => {
             console.log(response.data)
+            this.loading = false;
             cb(response.data)
         }).catch(error => {
             alert(error.response.data)

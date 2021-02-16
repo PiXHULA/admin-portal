@@ -48,10 +48,10 @@ const Menu = () => {
                 </li>
                 <li>
                     {currentUser.role === "SUPERADMIN" ?
-                    <button onClick={() => controller.setLoadingTrue(() => history.push("/superadmin"))}>
+                    <button onClick={() => controller.setLoadingTrue(() => history.push("/sudashboard"))}>
                         more
                     </button>:
-                    <button disabled={true} onClick={() => controller.setLoadingTrue(() => history.push("/superadmin"))}>
+                    <button disabled={true} onClick={() => controller.setLoadingTrue(() => history.push("/sudashboard"))}>
                         more
                     </button> }
                 </li>
@@ -67,7 +67,6 @@ const divDashboardPanel = {
     'align-items': 'center',
     'min-height': '1vh',
     'min-width': '20vh',
-    'background-color': 'red',
 }
 
 const listStyle = {

@@ -43,9 +43,9 @@ const SUDashboard = () => {
                 <Menu/>
                 <span style={divDashboardPanel}>
                 <Nav/>
-                    {controller.isLoading() ?
-                        <h2>Loading...</h2> :
-                        getUserListAsSU()}
+                    {/*{controller.isLoading() ?*/}
+                    {/*    <h2>Loading...</h2> :*/}
+                    {getUserListAsSU()}
                 <button type="button" onClick={handleClick}>
                     Go back!
                 </button>
@@ -70,14 +70,12 @@ const divGround = {
 const divDashboardPanel = {
     'min-height': '1vh',
     'min-width': '80vh',
-    'background-color': 'blue',
 }
 
 const listPanel = {
     'display': 'flex-center',
     'align-items': 'center',
     'min-height': '1vh',
-    'background-color': 'lightgray',
 }
 
 export default SUDashboard;

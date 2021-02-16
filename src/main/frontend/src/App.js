@@ -34,11 +34,10 @@ function App() {
                     <ProtectedRoute path="/cities" component={City}/>
                     <ProtectedRoute path="/applications" component={Applications}/>
                     <ProtectedRoute path="/edit" component={Edit}/>
-                    <ProtectedRoute path="/superadmin" component={SUDashboard}/>
-                    <ProtectedRoute path="/superadmin/editlist" component={EditList} />
-                    <ProtectedRoute path="/superadmin/edit" component={Edit} />
-                    <ProtectedRoute path="/superadmin/create" component={Create}/>
-                    <ProtectedRoute path="/superadmin/delete" component={Delete}/>
+                    <ProtectedRoute path="/sudashboard" component={SUDashboard}/>
+                    <ProtectedRoute path="/editall" component={EditList} />
+                    <ProtectedRoute path="/create" component={Create}/>
+                    <ProtectedRoute path="/delete" component={Delete}/>
                     <Route path="*" component={ErrorPage}/>
                 </Switch>
             </div>

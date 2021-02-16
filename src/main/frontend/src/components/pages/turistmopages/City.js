@@ -43,7 +43,6 @@ const divDashboardPanel = {
     'align-items': 'center',
     'min-height': '1vh',
     'min-width': '80vh',
-    'background-color': 'blue',
 }
 export default City;
 
