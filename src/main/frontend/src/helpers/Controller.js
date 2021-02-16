@@ -124,8 +124,8 @@ class Controller {
                     'Authorization': `Bearer ${localStorage.getItem("jwt")}`
                 },
             }).then(response => {
-            cb(response.data)
             console.log(response.data)
+            cb(response.data)
         }).catch(error => {
             console.log(error.response.data);
         })

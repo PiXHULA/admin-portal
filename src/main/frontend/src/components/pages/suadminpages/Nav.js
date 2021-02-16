@@ -15,7 +15,8 @@ const Nav = () => {
     }
 
     const createClick = () => {
-        controller.setLoadingTrue(() => history.push("/superadmin/create"));
+        // controller.setLoadingTrue(() => history.push("/superadmin/create"));
+        history.push("/superadmin/create");
     }
 
     const showEditClick = () => {
@@ -51,44 +52,32 @@ const Nav = () => {
         }))
     }, []);
 
-    const getDeleteButton = (currentUser) => {
+    const getDeleteButton = () => {
         return (
-            currentUser.role === "SUPERADMIN" &&
             <button onClick={deleteClick}>
                 Delete an admin
             </button>
         )
     }
 
-    const getCreateButton = (currentUser) => {
+    const getCreateButton = () => {
         return (
-            currentUser.role === "SUPERADMIN" &&
             <button onClick={createClick}>
                 Create a new admin
             </button>
         )
     }
 
-    const getEditAllButton = (currentUser) => {
+    const getEditAllButton = () => {
         return (
-            currentUser.role === "SUPERADMIN" &&
             <button onClick={showEditClick}>
                 Edit an admin
             </button>
         )
     }
-    const getEditButton = (currentUser) => {
-        return (
-            currentUser.role === "ADMIN" &&
-            <button onClick={editClick}>
-                Edit
-            </button>
-        )
-    }
 
-    const getLogoutButton = (currentUser) => {
+    const getLogoutButton = () => {
         return (
-            currentUser.role !== "" &&
             <button onClick={logoutClick}>
                 Logout
             </button>
@@ -98,17 +87,17 @@ const Nav = () => {
     return (
         <div style={headerStyle}>
             <ul style={ulStyle}>
-                <li style={liStyle}>{getCreateButton(currentUser)}</li>
-                <li style={liStyle}>{getEditAllButton(currentUser)}</li>
-                <li style={liStyle}>{getEditButton(currentUser)}</li>
-                <li style={liStyle}>{getDeleteButton(currentUser)}</li>
-                <li style={liStyle}>{getLogoutButton(currentUser)}</li>
+                <li style={liStyle}>{getCreateButton()}</li>
+                <li style={liStyle}>{getEditAllButton()}</li>
+                <li style={liStyle}>{getDeleteButton()}</li>
+                <li style={liStyle}>{getLogoutButton()}</li>
             </ul>
         </div>
     )
 }
 
 const ulStyle = {
+    'padding':'0',
     'display': 'flex',
     'flexDirection': 'row',
     'list-style-type': 'none',
@@ -116,15 +105,14 @@ const ulStyle = {
 }
 
 const liStyle = {
-    'padding': '5vh',
+    // 'padding': '5vh',
 }
 
-
 const headerStyle = {
-    'display': 'flex',
-    'flexDirection': 'row',
-    'alignItems': 'center',
-    'justifyContent': 'space-around',
+    // // 'display': 'flex',
+    // 'flexDirection': 'row',
+    // 'alignItems': 'center',
+    // 'justifyContent': 'space-around',
     'min-height': '1vh',
     'fontSize': 'calc(10px + 2vmin)',
 }
