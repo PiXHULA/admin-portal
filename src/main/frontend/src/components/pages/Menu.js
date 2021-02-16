@@ -21,6 +21,13 @@ const Menu = () => {
         }))
     }, []);
 
+    const logoutClick = () => {
+        controller.logout(() => {
+            console.log("YOU HAVE LOGGED OUT");
+            localStorage.clear();
+            controller.setLoadingTrue(() => history.push("/"));
+        })
+    }
     return (
         <span style={divDashboardPanel}>
             <ul style={listStyle}>
@@ -47,6 +54,9 @@ const Menu = () => {
                     <button disabled={true} onClick={() => controller.setLoadingTrue(() => history.push("/superadmin"))}>
                         more
                     </button> }
+                </li>
+                <li>
+                    <button onClick={logoutClick}>log out</button>
                 </li>
             </ul>
         </span>

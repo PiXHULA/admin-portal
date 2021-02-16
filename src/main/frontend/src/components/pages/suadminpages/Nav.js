@@ -6,10 +6,6 @@ import controller from "../../../helpers/Controller";
 const Nav = () => {
     let history = useHistory();
 
-    const landingClick = () => {
-        controller.setLoadingTrue(() => history.push("/"));
-    }
-
     const deleteClick = () => {
         controller.setLoadingTrue(() => history.push("/superadmin/delete"));
     }
@@ -27,15 +23,6 @@ const Nav = () => {
         localStorage.setItem("user", currentUser.id)
         controller.setLoadingTrue(() => history.push("/superadmin/edit"));
     }
-
-    const logoutClick = () => {
-        controller.logout(() => {
-            console.log("YOU HAVE LOGGED OUT");
-            localStorage.clear();
-            landingClick()
-        })
-    }
-
 
     const [currentUser, setCurrentUser] = useState({
         name: "",
@@ -76,21 +63,12 @@ const Nav = () => {
         )
     }
 
-    const getLogoutButton = () => {
-        return (
-            <button onClick={logoutClick}>
-                Logout
-            </button>
-        )
-    }
-
     return (
         <div style={headerStyle}>
             <ul style={ulStyle}>
                 <li style={liStyle}>{getCreateButton()}</li>
                 <li style={liStyle}>{getEditAllButton()}</li>
                 <li style={liStyle}>{getDeleteButton()}</li>
-                <li style={liStyle}>{getLogoutButton()}</li>
             </ul>
         </div>
     )

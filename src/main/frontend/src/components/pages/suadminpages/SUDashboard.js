@@ -68,8 +68,6 @@ const divGround = {
     'min-height': '80vh',
 }
 const divDashboardPanel = {
-    // 'display': 'flex',
-    // 'align-items': 'center',
     'min-height': '1vh',
     'min-width': '80vh',
     'background-color': 'blue',
