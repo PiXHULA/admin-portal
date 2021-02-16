@@ -2,6 +2,7 @@ package com.joakimatef.demo.controller;
 
 import com.joakimatef.demo.bootstrap.exceptions.UserNotFoundException;
 import com.joakimatef.demo.domain.security.User;
+import com.joakimatef.demo.repository.RoleRepository;
 import com.joakimatef.demo.service.UserService;
 import com.joakimatef.demo.service.security.permission.UserCreatePermission;
 import com.joakimatef.demo.service.security.permission.UserDeletePermission;
@@ -39,7 +40,8 @@ public class UserController {
     }
 
     /**
-     * Handle the request to get all the users
+     * Calls the {@link SecurityContextHolder} to get which user is authenticated.
+     * Calls the {@link UserService} to handle the request to get all the users
      *
      * @return List of users that are persisted on the database else error response from the service.
      */
@@ -57,7 +59,8 @@ public class UserController {
     }
 
     /**
-     * Handle the request to get one user to edit
+     * Calls the {@link SecurityContextHolder} to get which user is authenticated.
+     * Calls the {@link UserService} to handle the request to get one user to edit
      *
      * @param id id
      * @return User that are persisted on the database else error response.
@@ -75,7 +78,8 @@ public class UserController {
     }
 
     /**
-     * Handle the request to get the current user
+     * Calls the {@link SecurityContextHolder} to get which user is authenticated.
+     * Calls the {@link UserService} to handle the request to get the current user
      *
      * @return User that are persisted on the database else error response.
      */
@@ -92,7 +96,7 @@ public class UserController {
     }
 
     /**
-     * Handle the request to create and persist new user to database
+     * Calls the {@link UserService} to handle the request to create and persist new user to database
      *
      * @param user New user.
      * @return User that was persisted to the database if successfully else return error response.
@@ -113,7 +117,8 @@ public class UserController {
     }
 
     /**
-     * Handle the request for deleting a user.
+     * Calls the {@link SecurityContextHolder} to get which user is authenticated.
+     * Calls the {@link UserService} to handle the request for deleting a user.
      *
      * @param id id.
      * @return Response from service if the user is deleted successfully or if failed.
@@ -131,7 +136,8 @@ public class UserController {
     }
 
     /**
-     * Handle the request for edit and persist edit user to database
+     * Calls the {@link SecurityContextHolder} to get which user is authenticated.
+     * Calls the {@link UserService} to handle the request for edit and persist edit user to database
      *
      * @param user user.
      * @return Edit user if successfully else return error response from service.
