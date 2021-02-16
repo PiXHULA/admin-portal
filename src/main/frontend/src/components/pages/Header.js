@@ -2,9 +2,10 @@ import React from "react";
 
 
 const Header = () => {
-
     return (
-            <h2>Turistmo - Admin Portal</h2>
+        <header>
+            <h1>Turistmo - Admin Portal</h1>
+        </header>
     )
 }
 

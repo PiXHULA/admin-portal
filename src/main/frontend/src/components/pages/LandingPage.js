@@ -1,6 +1,5 @@
 import React, {useState} from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import App from '../../css/App.css';
 import controller from "../../helpers/Controller";
 
 const LandingPage = (props) => {
@@ -13,35 +12,34 @@ const LandingPage = (props) => {
 
     return (
         <div>
-            <Form>
-                <Form.Group size="lg">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control
-                        autoFocus
-                        type="user"
-                        value={user}
-                        onChange={(e) => setUser(e.target.value)}
-                    />
-                </Form.Group>
-                <Form.Group size="lg">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </Form.Group>
-                <Button block size="lg" disabled={!validateForm()} onClick={() => {
+            <div style={App.divForms}>
+                <form onSubmit={(event) => {
+                    event.preventDefault();
                     controller.login(user, password, () => {
                         if (controller.isAuthenticated()) {
                             props.history.push("/dashboard")
                         }
                     })
-                }
-                }>
-                    Login
-                </Button>
-            </Form>
+                }}>
+                    <label>Username</label>
+                    <input
+                        autoFocus
+                        type="text"
+                        value={user}
+                        onChange={(e) => setUser(e.target.value)}
+                    />
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <input
+                        type='submit'
+                        disabled={!validateForm()}>
+                    </input>
+                </form>
+            </div>
         </div>
     );
 

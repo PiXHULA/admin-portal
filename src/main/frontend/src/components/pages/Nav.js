@@ -116,7 +116,7 @@ const ulStyle = {
 }
 
 const liStyle = {
-    'padding-left': '5vh',
+    'padding': '5vh',
 }
 
 
