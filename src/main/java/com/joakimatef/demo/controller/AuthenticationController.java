@@ -58,7 +58,7 @@ public class AuthenticationController {
                             authenticationRequest.getUsername(), authenticationRequest.getPassword())
             );
         } catch (BadCredentialsException e){
-            throw new IllegalStateException("Incorrect username or password", e);
+            return ResponseEntity.status(401).body("Incorrect username or password");
         }
 
         final UserDetails userDetails = jpaUserDetailService.loadUserByUsername(authenticationRequest.getUsername());

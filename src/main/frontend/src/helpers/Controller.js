@@ -23,6 +23,7 @@ class Controller {
             this.authenticated = true;
             cb();
         }).catch(error => {
+            alert(error.response.data)
             console.log(error);
         });
     }
@@ -63,6 +64,7 @@ class Controller {
             localStorage.removeItem("user")
             cb();
         }).catch(error => {
+            alert(error.response.data)
             console.log(error);
         });
     }
@@ -80,6 +82,7 @@ class Controller {
             console.log(response.data)
             cb();
         }).catch(error => {
+            alert(error.response.data)
             console.log(error);
         })
     }
@@ -95,6 +98,7 @@ class Controller {
             console.log(response.data)
             cb()
         }).catch(error => {
+            alert(error.response.data)
             console.log(error.response.data);
         })
     }
@@ -112,6 +116,7 @@ class Controller {
             this.loading = false;
             cb(response.data)
         }).catch(error => {
+            alert(error.response.data)
             console.log(error.response.data);
         })
     }
@@ -127,6 +132,7 @@ class Controller {
             console.log(response.data)
             cb(response.data)
         }).catch(error => {
+            alert(error.response.data)
             console.log(error.response.data);
         })
     }
@@ -142,6 +148,7 @@ class Controller {
             console.log(response.data)
             cb(response.data)
         }).catch(error => {
+            alert(error.response.data)
             console.log(error)
         })
     }
