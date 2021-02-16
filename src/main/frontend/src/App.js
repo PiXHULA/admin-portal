@@ -6,15 +6,19 @@ import {
 import './css/App.css';
 import LandingPage from "./components/pages/LandingPage";
 import Footer from "./components/pages/Footer";
-import About from "./components/pages/About";
 import {ProtectedRoute} from "./helpers/ProtectedRoute";
 import {ErrorPage} from "./components/pages/ErrorPage";
 import Dashboard from "./components/pages/Dashboard";
 import Edit from "./components/pages/Edit";
-import Create from "./components/pages/Create";
-import Delete from "./components/pages/Delete";
+import Create from "./components/pages/suadminpages/Create";
+import Delete from "./components/pages/suadminpages/Delete";
 import Header from "./components/pages/Header";
-import ShowEdit from "./components/pages/ShowEdit";
+import EditList from "./components/pages/suadminpages/EditList";
+import Curators from "./components/pages/turistmopages/Curators";
+import Tags from "./components/pages/turistmopages/Tags";
+import City from "./components/pages/turistmopages/City";
+import Applications from "./components/pages/turistmopages/Applications";
+import SUDashboard from "./components/pages/suadminpages/SUDashboard";
 
 function App() {
     return (
@@ -24,12 +28,17 @@ function App() {
             <div style={mainDiv}>
                 <Switch>
                     <Route path="/" exact component={LandingPage}/>
-                    <Route path="/about" component={About}/>
                     <ProtectedRoute path="/dashboard" component={Dashboard}/>
-                    <ProtectedRoute path="/ShowEdit" component={ShowEdit}/>
+                    <ProtectedRoute path="/curators" component={Curators}/>
+                    <ProtectedRoute path="/tags" component={Tags}/>
+                    <ProtectedRoute path="/cities" component={City}/>
+                    <ProtectedRoute path="/applications" component={Applications}/>
                     <ProtectedRoute path="/edit" component={Edit}/>
-                    <ProtectedRoute path="/create" component={Create}/>
-                    <ProtectedRoute path="/delete" component={Delete}/>
+                    <ProtectedRoute path="/superadmin" component={SUDashboard}/>
+                    <ProtectedRoute path="/superadmin/editlist" component={EditList} />
+                    <ProtectedRoute path="/superadmin/edit" component={Edit} />
+                    <ProtectedRoute path="/superadmin/create" component={Create}/>
+                    <ProtectedRoute path="/superadmin/delete" component={Delete}/>
                     <Route path="*" component={ErrorPage}/>
                 </Switch>
             </div>

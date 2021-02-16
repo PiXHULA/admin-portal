@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import controller from "../../helpers/Controller";
-import Nav from "./Nav";
+import {useHistory} from "react-router-dom";
+import Menu from "./Menu";
 
 const Dashboard = () => {
 
+    let history = useHistory();
     const [userList, setUserList] = useState([]);
 
 
@@ -13,59 +15,61 @@ const Dashboard = () => {
 
     const getUserList = () => {
         return (
-            <ul style={listPanel}>
-                {[...userList].map((user) => (
-                    <li>
-                        {user.username}
-                    </li>
-                ))}
-            </ul>
-        )
-    }
-
-    const getDashboardPanel = () => {
-        return (
             <div style={divDashboardPanel}>
-                <ul style={{'list-style-type': 'none'}}>
-                    <li>
-                        <button>curators</button>
-                    </li>
-                    <li>
-                        <button>applications</button>
-                    </li>
-                    <li>
-                        <button>tags</button>
-                    </li>
-
+                <ul style={listPanel}>
+                    {[...userList].map((user) => (
+                        <li>
+                            {user.username}
+                        </li>
+                    ))}
                 </ul>
             </div>
         )
     }
-    return (<div>
-        <h2>Dashboard</h2>
-        {controller.isLoading() ?
-        <h2>Loading...</h2> :
-        <Nav/>}
-        {controller.isLoading() ?
-        <h2>Loading...</h2> :
-        getDashboardPanel()}
-        {controller.isLoading() ?
-        <h2>Loading...</h2> :
-        getUserList()}
-    </div>);
+
+    return (
+        <div style={divGround}>
+            <div style={header}>
+            <h2>Dashboard</h2>
+            </div>
+            <div style={divContent}>
+                <Menu/>
+                <span style={divDashboardPanel}>
+                {controller.isLoading() ?
+                    <h2>Loading...</h2> :
+                    getUserList()}
+                </span>
+            </div>
+        </div>
+    );
 };
 
-
-const divDashboardPanel = {
+const divContent = {
     'display': 'flex',
-    'align-items': 'left',
-    'min-height': '1vh',
+    'flexDirection': 'row',
 }
 
-const listPanel = {
-    'display': 'flex-center',
+const header = {
+    'display': 'flex',
+    'align-items': 'left',
+}
+
+const divGround = {
+    'min-width': '100vh',
+    'min-height': '80vh',
+}
+const divDashboardPanel = {
+    'display': 'flex',
     'align-items': 'center',
     'min-height': '1vh',
+    'min-width': '80vh',
+    'background-color': 'blue',
+}
+const listPanel = {
+    'display': 'flex',
+    'align-items': 'center',
+    'min-height': '1vh',
+    'background-color': 'lightgray',
 }
 
 export default Dashboard;

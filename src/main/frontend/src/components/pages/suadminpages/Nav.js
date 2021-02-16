@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
-import controller from "../../helpers/Controller";
+import controller from "../../../helpers/Controller";
 
 
 const Nav = () => {
@@ -11,20 +11,20 @@ const Nav = () => {
     }
 
     const deleteClick = () => {
-        controller.setLoadingTrue(() => history.push("/delete"));
+        controller.setLoadingTrue(() => history.push("/superadmin/delete"));
     }
 
     const createClick = () => {
-        controller.setLoadingTrue(() => history.push("/create"));
+        controller.setLoadingTrue(() => history.push("/superadmin/create"));
     }
 
     const showEditClick = () => {
-        controller.setLoadingTrue(() => history.push("/ShowEdit"));
+        controller.setLoadingTrue(() => history.push("/superadmin/editlist"));
     }
 
     const editClick = () => {
         localStorage.setItem("user", currentUser.id)
-        controller.setLoadingTrue(() => history.push("/edit"));
+        controller.setLoadingTrue(() => history.push("/superadmin/edit"));
     }
 
     const logoutClick = () => {
@@ -43,7 +43,7 @@ const Nav = () => {
     });
 
     useEffect(() => {
-        controller.getCurrentUser(response => setCurrentUser({
+        controller.getLoggedInUser(response => setCurrentUser({
             id: response.id,
             name: response.username,
             password: response.password,

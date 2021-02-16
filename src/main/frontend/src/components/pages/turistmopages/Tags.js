@@ -1,15 +1,15 @@
-import React from "react";
 import {useHistory} from "react-router-dom";
+import React from "react";
 
-const About = () => {
+const Tags = () => {
     let history = useHistory();
 
     const handleClick = () => {
         history.push("/dashboard");
     }
     return (
-        <div>
-            <h2>About</h2>
+        <div style={divGround}>
+            <h2>Add or remove Tags</h2>
 
             <button type="button" onClick={handleClick}>
                 Go back!
@@ -19,6 +19,10 @@ const About = () => {
 
     )
 }
+const divGround = {
+    'background-color': 'yellow',
+    'min-width': '100vh',
+}
 
-export default About;
+export default Tags;
 

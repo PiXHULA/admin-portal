@@ -17,22 +17,8 @@ const Edit = () => {
         password: ""
     });
 
-    const getUser = () => {
-        axios.get(`api/v1/user/user/${localStorage.getItem("user")}`,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem("jwt")}`
-                },
-            }).then(response => {
-            setUser({id: response.data.id, name: response.data.username, password: response.data.password})
-            console.log(response.data)
-        }).catch(error => {
-            console.log(error.response.data);
-        })
-    }
     useEffect(() => {
-        getUser()
+        controller.getUser((response) =>  setUser({id: response.id, name: response.username, password: response.password}))
     }, [])
 
     return (

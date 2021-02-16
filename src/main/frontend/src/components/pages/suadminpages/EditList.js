@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import controller from "../../helpers/Controller";
+import controller from "../../../helpers/Controller";
 import {useHistory} from "react-router-dom";
 import Nav from "./Nav";
 
-const ShowEdit = () => {
+const EditList = () => {
 
     let history = useHistory();
 
@@ -52,4 +52,4 @@ const ShowEdit = () => {
         </div>
     );
 }
-export default ShowEdit;
+export default EditList;

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import controller from "../../helpers/Controller";
+import controller from "../../../helpers/Controller";
 import {useHistory} from "react-router-dom";
 
 const Delete = () => {

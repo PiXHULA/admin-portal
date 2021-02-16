@@ -116,7 +116,22 @@ class Controller {
         })
     }
 
-    getCurrentUser (cb) {
+    getUser (cb) {
+        axios.get(`api/v1/user/user/${localStorage.getItem("user")}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("jwt")}`
+                },
+            }).then(response => {
+            cb(response.data)
+            console.log(response.data)
+        }).catch(error => {
+            console.log(error.response.data);
+        })
+    }
+
+    getLoggedInUser (cb) {
         axios.get(`api/v1/user/user`,
             {
                 headers: {
@@ -130,6 +145,8 @@ class Controller {
             console.log(error)
         })
     }
+
+
 }
 
 export default new Controller();
