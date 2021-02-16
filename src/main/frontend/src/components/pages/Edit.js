@@ -70,6 +70,7 @@ const divGround = {
     'min-height': '80vh',
 }
 const spanDashboardPanel = {
+    'padding-top': '5vh',
     'align-items': 'center',
     'justify-content': 'center',
     'min-height': '1vh',

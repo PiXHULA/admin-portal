@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -79,12 +80,12 @@ public class UserService {
 
     public User createAdmin(User user) throws UserAlreadyExistsException {
         Role adminRole = roleRepository.findByRoleName("ADMIN").orElseThrow(() -> new RuntimeException("Role not found"));
-        Optional<User> alreadyExistingUser = userRepository.findByUsername(user.getUsername());
+        Optional<User> alreadyExistingUser = userRepository.findByUsername(user.getUsername().toLowerCase());
         if(alreadyExistingUser.isPresent())
             throw new UserAlreadyExistsException(String.format("User with %s already exists", alreadyExistingUser.get().getUsername()));
 
         return userRepository.save(User.builder()
-                .username(user.getUsername())
+                .username(user.getUsername().toLowerCase())
                 .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode(user.getPassword()))
                 .role(adminRole)
                 .build());

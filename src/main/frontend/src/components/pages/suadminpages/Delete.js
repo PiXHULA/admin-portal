@@ -23,17 +23,16 @@ const Delete = () => {
         return (
             <ul style={ulStyle}>
                 {[...userList].filter(user => user.roles[0].roleName === "ADMIN").map((user) => (
-
-                    <li>
+                    <li style={{'flex-direction':'row'}}>
                         {user.username}
-                        <button onClick={() => {
+                        <button style={deleteBtn} onClick={() => {
                             controller.deleteUser(user,
                                 () => {
                                     controller.getUsers((res) => {
                                         setUserList(res)
                                     })
                                 })
-                        }}>Delete
+                        }}>delete
                         </button>
                     </li>
                 ))}
@@ -76,6 +75,7 @@ const divGround = {
     'min-height': '80vh',
 }
 const spanDashboardPanel = {
+    'padding-top': '5vh',
     'align-items': 'center',
     'justify-content': 'center',
     'min-height': '1vh',
@@ -88,5 +88,11 @@ const ulStyle = {
     'flexDirection': 'row',
     'list-style-type': 'none',
     'justifyContent': 'space-around',
+}
+
+const deleteBtn = {
+    'width': '50%',
+    'background-color': '#be0651',
+    'padding' : '0',
 }
 export default Delete;

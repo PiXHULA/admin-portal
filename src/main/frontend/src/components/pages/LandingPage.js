@@ -15,7 +15,7 @@ const LandingPage = (props) => {
             <div style={App.divForms}>
                 <form onSubmit={(event) => {
                     event.preventDefault();
-                    controller.login(user, password, () => {
+                    controller.login(user.toLowerCase(), password, () => {
                         if (controller.isAuthenticated()) {
                             props.history.push("/dashboard")
                         }

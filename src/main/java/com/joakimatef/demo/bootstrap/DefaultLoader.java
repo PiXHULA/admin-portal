@@ -59,13 +59,13 @@ public class DefaultLoader implements CommandLineRunner {
         roleRepository.saveAll(Arrays.asList(superAdminRole, adminRole));
 
         userRepository.save(User.builder()
-                .username("suAdmin")
+                .username("suamin")
                 .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode("wuru"))
                 .role(superAdminRole)
                 .build());
 
         userRepository.save(User.builder()
-                .username("supAdmin")
+                .username("supadmin")
                 .password(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode("zuru"))
                 .role(superAdminRole)
                 .build());

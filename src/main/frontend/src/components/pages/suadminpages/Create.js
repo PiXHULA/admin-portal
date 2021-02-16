@@ -11,6 +11,10 @@ const Create = () => {
         controller.setLoadingTrue(() =>history.push("/sudashboard"))
     }
 
+    const validateForm = () => {
+        return user.username.length > 0 && user.password.length > 0;
+    }
+
     const [user, setUser] = useState({
         username: "",
         password: ""
@@ -30,10 +34,13 @@ const Create = () => {
                     <input type="text" placeholder="name"
                            onChange={event => setUser({...user, username: event.target.value})}/> <br/>
                     Password
-                    <input type="text" placeholder="password"
+                    <input type="password" placeholder="password"
                            onChange={event => setUser({...user, password: event.target.value})}/>
                 </label>
-                <button type="button" onClick={() => {
+                <button
+                    type="button"
+                    disabled={!validateForm()}
+                    onClick={() => {
                     controller.createUser(user, () => {
                         handleClick()
                     })
@@ -65,6 +72,7 @@ const divGround = {
     'min-height': '80vh',
 }
 const spanDashboardPanel = {
+    'padding-top': '5vh',
     'align-items': 'center',
     'justify-content': 'center',
     'min-height': '1vh',

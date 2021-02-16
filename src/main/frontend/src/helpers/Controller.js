@@ -16,15 +16,12 @@ class Controller {
                 }
             },
         ).then((response) => {
-            console.log("LOGIN")
-            console.log(response.data)
             const token = response.data.jwt;
             localStorage.setItem("jwt", token)
             this.authenticated = true;
             cb();
         }).catch(error => {
             alert(error.response.data)
-            console.log(error);
         });
     }
 
@@ -59,13 +56,10 @@ class Controller {
                 }
             },
         ).then((response) => {
-            console.log("EDIT")
-            console.log(response.data)
             localStorage.removeItem("user")
             cb();
         }).catch(error => {
             alert(error.response.data)
-            console.log(error);
         });
     }
 
@@ -78,12 +72,10 @@ class Controller {
                     'Authorization': `Bearer ${localStorage.getItem("jwt")}`
                 },
             }).then(response => {
-
-            console.log(response.data)
             cb();
         }).catch(error => {
             alert(error.response.data)
-            console.log(error);
+
         })
     }
 
@@ -95,11 +87,9 @@ class Controller {
                     'Authorization': `Bearer ${localStorage.getItem("jwt")}`
                 },
             }).then(response => {
-            console.log(response.data)
             cb()
         }).catch(error => {
             alert(error.response.data)
-            console.log(error.response.data);
         })
     }
 
@@ -111,13 +101,10 @@ class Controller {
                     'Authorization': `Bearer ${localStorage.getItem("jwt")}`
                 },
             }).then(response => {
-            console.log("GET ALL USERS")
-            console.log(response.data)
             this.loading = false;
             cb(response.data)
         }).catch(error => {
             alert(error.response.data)
-            console.log(error.response.data);
         })
     }
 
@@ -129,11 +116,9 @@ class Controller {
                     'Authorization': `Bearer ${localStorage.getItem("jwt")}`
                 },
             }).then(response => {
-            console.log(response.data)
             cb(response.data)
         }).catch(error => {
             alert(error.response.data)
-            console.log(error.response.data);
         })
     }
 
@@ -145,16 +130,12 @@ class Controller {
                     'Authorization': `Bearer ${localStorage.getItem("jwt")}`
                 },
             }).then(response => {
-            console.log(response.data)
             this.loading = false;
             cb(response.data)
         }).catch(error => {
             alert(error.response.data)
-            console.log(error)
         })
     }
-
-
 }
 
 export default new Controller();

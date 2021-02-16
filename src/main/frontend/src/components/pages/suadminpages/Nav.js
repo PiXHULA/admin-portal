@@ -7,18 +7,15 @@ const Nav = () => {
     let history = useHistory();
 
     const deleteClick = () => {
-        // controller.setLoadingTrue(() => history.push("/superadmin/delete"));
-        history.push("/delete");
+        controller.setLoadingTrue(() => history.push("/delete"));
     }
 
     const createClick = () => {
-        // controller.setLoadingTrue(() => history.push("/superadmin/create"));
-        history.push("/create");
+        controller.setLoadingTrue(() => history.push("/create"));
     }
 
     const showEditClick = () => {
-        // controller.setLoadingTrue(() => history.push("/superadmin/editlist"));
-        history.push("/editall");
+        controller.setLoadingTrue(() => history.push("/editall"));
     }
 
     const [currentUser, setCurrentUser] = useState({
@@ -84,10 +81,7 @@ const liStyle = {
 }
 
 const headerStyle = {
-    // // 'display': 'flex',
-    // 'flexDirection': 'row',
-    // 'alignItems': 'center',
-    // 'justifyContent': 'space-around',
+
     'min-height': '1vh',
     'fontSize': 'calc(10px + 2vmin)',
 }

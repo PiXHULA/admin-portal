@@ -30,7 +30,7 @@ const EditList = () => {
                 {[...userList].map((user) => (
                     <li>
                         {user.username}
-                        <button onClick={() => {
+                        <button style={editBtn} onClick={() => {
                             localStorage.setItem("user", user.id)
                             editClick()
                         }}>Edit
@@ -52,11 +52,9 @@ const EditList = () => {
                    {controller.isLoading() ?
                       <h2>Loading...</h2> :
                        getUserList()}
-                    {controller.isLoading() ?
-                    <h2>Loading...</h2> :
                     <button type="button" onClick={handleClick}>
                         Go back!
-                    </button>}
+                    </button>
               </span>
             </div>
         </div>
@@ -77,6 +75,7 @@ const divGround = {
     'min-height': '80vh',
 }
 const spanDashboardPanel = {
+    'padding-top': '5vh',
     'align-items': 'center',
     'justify-content': 'center',
     'min-height': '1vh',
@@ -84,12 +83,17 @@ const spanDashboardPanel = {
 }
 
 const ulStyle = {
-    'padding':'0',
-    'display': 'flex',
-    'flexDirection': 'row',
+    'display': 'flex-center',
+    'padding-right':'5vh',
+    'align-items': 'center',
+    'justifyContent': 'center',
+    'min-height': '1vh',
     'list-style-type': 'none',
-    'justifyContent': 'space-around',
 }
 
+const editBtn = {
+    'width': '25%',
+    'padding' : 0,
+}
 
 export default EditList;
