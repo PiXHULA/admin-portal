@@ -13,13 +13,32 @@ const Dashboard = () => {
 
     const getUserList = () => {
         return (
-            <ul>
+            <ul style={listPanel}>
                 {[...userList].map((user) => (
                     <li>
                         {user.username}
                     </li>
                 ))}
             </ul>
+        )
+    }
+
+    const getDashboardPanel = () => {
+        return (
+            <div style={divDashboardPanel}>
+                <ul style={{'list-style-type': 'none'}}>
+                    <li>
+                        <button>curators</button>
+                    </li>
+                    <li>
+                        <button>applications</button>
+                    </li>
+                    <li>
+                        <button>tags</button>
+                    </li>
+
+                </ul>
+            </div>
         )
     }
     return (<div>
@@ -29,8 +48,24 @@ const Dashboard = () => {
         <Nav/>}
         {controller.isLoading() ?
         <h2>Loading...</h2> :
+        getDashboardPanel()}
+        {controller.isLoading() ?
+        <h2>Loading...</h2> :
         getUserList()}
     </div>);
 };
+
+
+const divDashboardPanel = {
+    'display': 'flex',
+    'align-items': 'left',
+    'min-height': '1vh',
+}
+
+const listPanel = {
+    'display': 'flex-center',
+    'align-items': 'center',
+    'min-height': '1vh',
+}
 
 export default Dashboard;
