@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import axios from "axios";
 import controller from "../../helpers/Controller";
 import {useHistory} from "react-router-dom";
 import Menu from "./Menu";

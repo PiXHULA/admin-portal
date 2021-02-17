@@ -44,6 +44,10 @@ class Controller {
         cb();
     }
 
+    setLoadingFalse() {
+        this.loading = false;
+    }
+
     editUser({id, username, password}, cb) {
         axios.patch('api/v1/user/edit', {
                 id: id,
@@ -55,7 +59,7 @@ class Controller {
                     'Authorization': `Bearer ${localStorage.getItem("jwt")}`
                 }
             },
-        ).then((response) => {
+        ).then(() => {
             localStorage.removeItem("user")
             cb();
         }).catch(error => {
@@ -71,7 +75,7 @@ class Controller {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("jwt")}`
                 },
-            }).then(response => {
+            }).then(() => {
             cb();
         }).catch(error => {
             alert(error.response.data)
@@ -86,7 +90,7 @@ class Controller {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem("jwt")}`
                 },
-            }).then(response => {
+            }).then(() => {
             cb()
         }).catch(error => {
             alert(error.response.data)

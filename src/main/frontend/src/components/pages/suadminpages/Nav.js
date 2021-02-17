@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {useHistory} from "react-router-dom";
 import controller from "../../../helpers/Controller";
 
@@ -18,19 +18,8 @@ const Nav = () => {
         controller.setLoadingTrue(() => history.push("/editall"));
     }
 
-    const [currentUser, setCurrentUser] = useState({
-        name: "",
-        password: "",
-        role: ""
-    });
-
     useEffect(() => {
-        controller.getLoggedInUser(response => setCurrentUser({
-            id: response.id,
-            name: response.username,
-            password: response.password,
-            role: response.roles[0].roleName
-        }))
+        controller.setLoadingFalse();
     }, []);
 
     const getDeleteButton = () => {
