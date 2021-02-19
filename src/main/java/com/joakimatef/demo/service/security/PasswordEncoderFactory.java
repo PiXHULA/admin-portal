@@ -25,11 +25,10 @@ public class PasswordEncoderFactory {
         String encodingId = "bcrypt";
         Map<String, PasswordEncoder> encoders = new HashMap<>();
         encoders.put(encodingId, new BCryptPasswordEncoder());
-        encoders.put("bcrypt12", new BCryptPasswordEncoder(12)); //In case we want to further increase the encryption
+        encoders.put("bcrypt12", new BCryptPasswordEncoder(12));
         return new DelegatingPasswordEncoder(encodingId, encoders);
     }
 
-    //Private constructor inorder to not instantiate this class and only use the static method
     private PasswordEncoderFactory() {
     }
 }

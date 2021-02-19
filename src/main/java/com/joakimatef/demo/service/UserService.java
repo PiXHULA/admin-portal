@@ -58,10 +58,6 @@ public class UserService {
             allUsers = userRepository.findAll();
         return ResponseEntity.ok(allUsers);
         } else if (user.getAuthorities().toString().contains("user.admin.read")) {
-//            allUsers = userRepository.findAll()
-//                    .stream()
-//                    .filter(e -> e.getAuthorities().toString().contains("user.admin.read"))
-//                    .collect(Collectors.toList());
             allUsers = new ArrayList<>();
             allUsers.add(user);
         return ResponseEntity.ok(allUsers);
@@ -104,7 +100,7 @@ public class UserService {
         User foundUser = userRepository.findUserById(id)
                 .orElseThrow(() -> new UserNotFoundException("User couldn't be found"));
 
-        if (isNotTheSameUserButHasAuthority(authenticatedUser, foundUser)) { //Superuser deleting another admin
+        if (isNotTheSameUserButHasAuthority(authenticatedUser, foundUser)) {
             userRepository.delete(foundUser);
             return ResponseEntity.ok(String.format("Successfully deleted %s", foundUser.getUsername()));
         }
@@ -123,24 +119,22 @@ public class UserService {
     public ResponseEntity<?> getUserToEdit(User user, Long id) throws UserNotFoundException {
         User foundUser = userRepository.findUserById(id)
                 .orElseThrow(() -> new UserNotFoundException("User couldn't be found"));
-        if (isNotTheSameUserButHasAuthority(user, foundUser) || isTheSameUser(user,foundUser)) { //Superuser deleting another admin
+        if (isNotTheSameUserButHasAuthority(user, foundUser) || isTheSameUser(user,foundUser)) {
             return ResponseEntity.ok().body(foundUser);
         }
         return ResponseEntity.status(403).body(String.format("You're not allowed to edit %s", foundUser.getUsername()));
     }
-
-    //ANVÄNDER VI DEN HÄR?
 
     public ResponseEntity<?> updateAdmin(User authenticatedUser, User userToEdit) throws UserNotFoundException {
         User foundUser = userRepository.findUserById(userToEdit.getId())
                 .orElseThrow(() -> new UserNotFoundException(String.format("User: %s couldn't be found", userToEdit.getUsername())));
         foundUser.setPassword(PasswordEncoderFactory.createDelegatingPasswordEncoder().encode(userToEdit.getPassword()));
 
-        if (isNotTheSameUserButHasAuthority(authenticatedUser, foundUser)) { //Superuser updating another admin
+        if (isNotTheSameUserButHasAuthority(authenticatedUser, foundUser)) {
             userRepository.save(foundUser);
             return ResponseEntity.ok(String.format("Update successful for %s", foundUser.getUsername()));
         }
-        if (isTheSameUser(authenticatedUser, foundUser)) { //Admin updating itself
+        if (isTheSameUser(authenticatedUser, foundUser)) {
             userRepository.save(foundUser);
             return ResponseEntity.ok(String.format("Update successful for %s", foundUser.getUsername()));
 

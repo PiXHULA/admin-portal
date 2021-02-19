@@ -74,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS); //Forcing SpringSecurity to NOT create a Session;
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

@@ -41,7 +41,7 @@ public class DefaultLoader implements CommandLineRunner {
     private void loadSecurityData() {
 
 
-        //user auths
+
         Authority createUser = authorityRepository.save(Authority.builder().permission("user.create").build());
         Authority readUser = authorityRepository.save(Authority.builder().permission("user.read").build());
         Authority updateUser = authorityRepository.save(Authority.builder().permission("user.update").build());
