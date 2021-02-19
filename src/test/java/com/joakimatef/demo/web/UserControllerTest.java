@@ -2,7 +2,7 @@ package com.joakimatef.demo.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.joakimatef.demo.bootstrap.exceptions.UserAlreadyExistsException;
+import com.joakimatef.demo.exceptions.UserAlreadyExistsException;
 import com.joakimatef.demo.domain.security.Authority;
 import com.joakimatef.demo.domain.security.Role;
 import com.joakimatef.demo.domain.security.User;

@@ -1,4 +1,4 @@
-package com.joakimatef.demo.bootstrap.exceptions;
+package com.joakimatef.demo.exceptions;
 
 public class UserNotFoundException extends Exception{
     public UserNotFoundException(String message) {

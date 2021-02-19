@@ -1,7 +1,7 @@
 package com.joakimatef.demo.service;
 
-import com.joakimatef.demo.bootstrap.exceptions.UserAlreadyExistsException;
-import com.joakimatef.demo.bootstrap.exceptions.UserNotFoundException;
+import com.joakimatef.demo.exceptions.UserAlreadyExistsException;
+import com.joakimatef.demo.exceptions.UserNotFoundException;
 import com.joakimatef.demo.domain.security.Role;
 import com.joakimatef.demo.domain.security.User;
 import com.joakimatef.demo.repository.RoleRepository;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -93,7 +92,7 @@ public class UserService {
      * @param authenticatedUser The user who is logged in.
      * @param id The id of the user to delete.
      * @return An OK response with a message.
-     * @throws com.joakimatef.demo.bootstrap.exceptions.UserNotFoundException if the user doesn't exist.
+     * @throws com.joakimatef.demo.exceptions.UserNotFoundException if the user doesn't exist.
      */
 
     public ResponseEntity<?> deleteAdmin(User authenticatedUser, Long id) throws UserNotFoundException {
@@ -113,7 +112,7 @@ public class UserService {
      * @param user user The user who is logged in.
      * @param id long The id of the user to edit.
      * @return An OK response with a message or 403 if user is not allowed to do the operation.
-     * @throws com.joakimatef.demo.bootstrap.exceptions.UserNotFoundException if the user doesn't exist.
+     * @throws com.joakimatef.demo.exceptions.UserNotFoundException if the user doesn't exist.
      */
 
     public ResponseEntity<?> getUserToEdit(User user, Long id) throws UserNotFoundException {
@@ -148,7 +147,7 @@ public class UserService {
      *
      * @param user user The user who is logged in.
      * @return An OK response with the user
-     * @throws com.joakimatef.demo.bootstrap.exceptions.UserNotFoundException if the user doesn't exist.
+     * @throws com.joakimatef.demo.exceptions.UserNotFoundException if the user doesn't exist.
      */
 
     public ResponseEntity<?> findUserById(User user) throws UserNotFoundException {

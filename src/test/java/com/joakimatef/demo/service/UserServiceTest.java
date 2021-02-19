@@ -1,7 +1,7 @@
 package com.joakimatef.demo.service;
 
-import com.joakimatef.demo.bootstrap.exceptions.UserAlreadyExistsException;
-import com.joakimatef.demo.bootstrap.exceptions.UserNotFoundException;
+import com.joakimatef.demo.exceptions.UserAlreadyExistsException;
+import com.joakimatef.demo.exceptions.UserNotFoundException;
 import com.joakimatef.demo.domain.security.Authority;
 import com.joakimatef.demo.domain.security.Role;
 import com.joakimatef.demo.domain.security.User;

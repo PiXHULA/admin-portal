@@ -1,8 +1,7 @@
 package com.joakimatef.demo.controller;
 
-import com.joakimatef.demo.bootstrap.exceptions.UserNotFoundException;
+import com.joakimatef.demo.exceptions.UserNotFoundException;
 import com.joakimatef.demo.domain.security.User;
-import com.joakimatef.demo.repository.RoleRepository;
 import com.joakimatef.demo.service.UserService;
 import com.joakimatef.demo.service.security.permission.UserCreatePermission;
 import com.joakimatef.demo.service.security.permission.UserDeletePermission;
